@@ -1,0 +1,50 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    tools:context="io.garuda.skyworks.Fragments.CCValidityFragment">
+
+    <android.support.v7.widget.CardView
+        card_view:cardCornerRadius="1dp"
+        card_view:elevation="4dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/activity_vertical_margin"
+        android:layout_marginRight="@dimen/activity_vertical_margin"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:cardBackgroundColor="@color/white">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:textSize="@dimen/large_text"
+                android:textColor="@color/colorPrimaryDarker"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/items_inbetween"
+                android:padding="@dimen/items_inbetween_medium"
+                android:textStyle="bold"
+                android:text="@string/card_validity"/>
+
+            <io.garuda.skyworks.CustomViews.CreditCardEditText
+                android:id="@+id/et_validity"
+                android:hint="Expiry Date"
+                android:inputType="number"
+                android:maxLength="5"
+                android:layout_marginLeft="@dimen/items_inbetween"
+                android:layout_marginRight="@dimen/items_inbetween"
+                android:layout_marginTop="@dimen/items_inbetween"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorPrimaryDark"
+                android:paddingLeft="@dimen/items_inbetween_medium"/>
+
+        </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+</FrameLayout>

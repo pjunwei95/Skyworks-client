@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/home2"
+        android:title="Home"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_home"/>
+    <item
+        android:id="@+id/editProfile"
+        android:title="Edit Profile"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/notifications"
+        android:title="Notification"
+        app:showAsAction="always"
+        android:icon="@drawable/ic_notification"/>
+
+    <item
+        android:id="@+id/myWallet"
+        android:title="My Wallet"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/myServices"
+        android:title="My Services"
+        app:showAsAction="never" />
+</menu>

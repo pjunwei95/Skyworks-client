@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/activity_smaller_margin"
+        android:paddingBottom="@dimen/activity_smaller_margin">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:text="Name"
+            android:textSize="@dimen/content_text"
+            android:textColor="@color/colorPrimary"
+            android:paddingLeft="@dimen/activity_smaller_margin"/>
+
+        <EditText
+            android:id="@+id/name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.75"
+            android:ems="10"
+            android:textSize="@dimen/content_text"
+            android:textColor="@color/colorPrimaryDarker"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/activity_smaller_margin"
+        android:paddingBottom="@dimen/activity_smaller_margin">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:text="Contact Number"
+            android:textSize="@dimen/content_text"
+            android:textColor="@color/colorPrimary"
+            android:paddingLeft="@dimen/activity_smaller_margin"/>
+
+        <EditText
+            android:id="@+id/number"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.75"
+            android:ems="10"
+            android:lines="2"
+            android:textSize="@dimen/content_text"
+            android:textColor="@color/colorPrimaryDarker"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/activity_smaller_margin"
+        android:paddingBottom="@dimen/activity_smaller_margin">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:text="Email"
+            android:textSize="@dimen/content_text"
+            android:textColor="@color/colorPrimary"
+            android:paddingLeft="@dimen/activity_smaller_margin"/>
+
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.75"
+            android:ems="10"
+            android:textSize="@dimen/content_text"
+            android:textColor="@color/colorPrimaryDarker"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/activity_smaller_margin"
+        android:paddingBottom="@dimen/activity_smaller_margin">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.25"
+            android:text="Job Type"
+            android:textSize="@dimen/content_text"
+            android:textColor="@color/colorPrimary"
+            android:paddingLeft="@dimen/activity_smaller_margin"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.75"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:id="@+id/jobType"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="0.25"
+                android:text="Job Type"
+                android:textSize="@dimen/content_text"
+                android:textColor="@color/colorPrimaryDarker"
+                android:paddingLeft="@dimen/activity_smaller_margin"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/activity_smaller_margin"
+        android:paddingBottom="@dimen/activity_smaller_margin">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.25"
+            android:text="Date"
+            android:textSize="@dimen/content_text"
+            android:textColor="@color/colorPrimary"
+            android:paddingLeft="@dimen/activity_smaller_margin"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.75"
+            android:orientation="horizontal"
+            >
+
+            <EditText
+                android:id="@+id/date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.75"
+                android:ems="10"
+                android:textSize="@dimen/content_text"
+                android:text="Pick a Date"
+                android:textColor="@color/colorPrimaryDarker"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/activity_smaller_margin"
+        android:paddingBottom="@dimen/activity_smaller_margin">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.25"
+            android:text="Time"
+            android:textSize="@dimen/content_text"
+            android:textColor="@color/colorPrimary"
+            android:paddingLeft="@dimen/activity_smaller_margin"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.75"
+            android:orientation="horizontal" >
+
+            <EditText
+                android:id="@+id/time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.75"
+                android:ems="10"
+                android:textSize="@dimen/content_text"
+                android:text="Pick a Time"
+                android:textColor="@color/colorPrimaryDarker"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="@dimen/activity_smaller_margin"
+        android:paddingBottom="@dimen/activity_smaller_margin">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="0.25"
+            android:text="Special Requests"
+            android:textSize="@dimen/content_text"
+            android:textColor="@color/colorPrimary"
+            android:paddingLeft="@dimen/activity_smaller_margin"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.75"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/specialRequest"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:lines="5"
+                android:textSize="@dimen/content_text_small"
+                android:textColor="@color/colorPrimaryDarker"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/submit"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="5"
+        android:text="SUBMIT"
+        android:textColor="@color/white"
+        android:layout_marginTop="@dimen/big_margin"
+        android:textSize="@dimen/content_text"/>
+
+
+
+
+
+
+</LinearLayout>

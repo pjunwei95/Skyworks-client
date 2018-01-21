@@ -1,0 +1,55 @@
+<resources>
+    <string name="app_name">SkyWorks</string>
+
+    <string name="title_activity_choose_service">Choose Service</string>
+    <string name="title_activity_choose_location">Choose Location</string>
+    <string name="title_activity_provider_detail">Provider Detail</string>
+    <string name="title_activity_providers">Providers</string>
+    <string name="title_activity_fill_up_form">Fill Up Form</string>
+    <string name="title_activity_payment">Payment</string>
+    <string name="title_activity_sign_up">Sign Up</string>
+    <string name="title_activity_confirmation">Confirmation</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="title_activity_edit_profile">Edit Profile</string>
+    <string name="title_activity_my_wallet">My Wallet</string>
+    <string name="title_activity_add_payment_method">Add Payment Method</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password (optional)</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+
+
+    <!-- defined for credit card -->
+    <string name="card_header">NFN CARD</string>
+    <string name="card_number_sample">XXXX XXXX XXXX XXXX</string>
+    <string name="card_validity_label">VALID UPTO</string>
+    <string name="card_validity_sample">MM/YY</string>
+    <string name="card_name_sample">CARD HOLDER</string>
+
+    <string name="card_holders_name">Card Holder\'s Name</string>
+    <string name="card_number">Card Number</string>
+    <string name="card_validity">Expires</string>
+    <string name="card_cvv">CVV/CVC Number</string>
+    <string name="title_activity_notifications">Notifications</string>
+    <string name="title_activity_service_detail">ServiceDetail</string>
+    <string name="title_activity_ongoing_service_detail">OngoingServiceDetail</string>
+    <string name="title_activity_request_service_detail">RequestServiceDetail</string>
+    <string name="title_activity_complete_service_detail">CompleteServiceDetail</string>
+    <string name="title_activity_complete_service_detail_rate">CompleteServiceDetailRate</string>
+    <string name="title_activity_pay_and_rate">PayAndRate</string>
+    <string name="title_activity_fill_up_form_others">FillUpFormOthers</string>
+    <string name="title_activity_my_services">MyServices</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>
