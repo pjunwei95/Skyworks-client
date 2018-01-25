@@ -95,6 +95,8 @@ public class ChooseLocation extends AppCompatActivity implements Serializable, G
         googleMap.setOnMapClickListener(this);
         googleMap.setOnMapLongClickListener(this);
         googleMap.setOnMarkerClickListener(this);
+        googleMap.getUiSettings().setMapToolbarEnabled(false);
+
 
     }
 
