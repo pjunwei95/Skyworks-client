@@ -9,32 +9,12 @@
     tools:context="io.garuda.skyworks.Activities.MyServices"
     tools:showIn="@layout/activity_my_services">
 
-    <LinearLayout
+    <FrameLayout
+        android:id="@+id/fl"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_height="wrap_content">
 
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/appbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:theme="@style/AppTheme.AppBarOverlay">
-
-            <android.support.design.widget.TabLayout
-                android:id="@+id/tabs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
-
-        </android.support.design.widget.AppBarLayout>
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/container"
-            android:layout_width="0dp"
-            android:layout_height="0dp" />
-
-    </LinearLayout>
+    </FrameLayout>
 
 
 </android.support.constraint.ConstraintLayout>

@@ -63,7 +63,7 @@ public class ProvidersRecyclerViewAdapter extends RecyclerView.Adapter<Providers
 
         Picasso.with(getContext())
                 .load(provider.getPosterPath())//need to change to online URL!!
-                .resize(500, 500).centerInside()
+                .resize(150, 150).centerInside()
                 .into(holder.ivProviderImage);
 
 

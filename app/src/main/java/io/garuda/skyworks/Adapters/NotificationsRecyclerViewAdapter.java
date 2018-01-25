@@ -76,7 +76,7 @@ public class NotificationsRecyclerViewAdapter extends RecyclerView.Adapter<Notif
 
             Picasso.with(getContext())
                     .load(service.getProvider().getPosterPath())//need to change to online URL!!
-                    .resize(500, 500).centerInside()
+                    .resize(150, 150).centerInside()
                     .into(holder.ivProviderImage);
         }
 

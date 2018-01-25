@@ -28,28 +28,53 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tap on the map to draw area of choice"
+            android:textStyle="italic"
+            android:textSize="12dp"
+            android:textColor="@color/colorPrimary"/>
+
         <fragment xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:map="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/map"
             android:name="com.google.android.gms.maps.SupportMapFragment"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="match_parent"
             tools:context="com.example.garuda.Activities.Inspection_Location"
             class="com.google.android.gms.maps.SupportMapFragment"
             />
 
-        <Button
-            android:id="@+id/pilot"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="Choose Pilot"
-            android:textSize="@dimen/content_text"
-            android:layout_marginTop="@dimen/activity_vertical_margin"
-            android:textColor="@color/white"
-            />
 
     </LinearLayout>
+
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="bottom"
+            android:layout_alignParentBottom="true">
+
+            <Button
+                android:id="@+id/pilot"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Confirm Location"
+                android:textSize="@dimen/content_text"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:textColor="@color/white"
+                />
+
+        </RelativeLayout>
+
+
+    </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>

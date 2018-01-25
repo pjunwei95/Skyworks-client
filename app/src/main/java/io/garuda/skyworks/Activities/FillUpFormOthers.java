@@ -126,13 +126,24 @@ public class FillUpFormOthers extends AppCompatActivity {
 
                 Service mService = new Service("Request", "Others", sName, sNumber, sEmail, sDate, sTime, sJobDes, null, null, null, -1);
 
-                Intent i = new Intent(FillUpFormOthers.this, Payment.class);
-                Bundle mBundle = new Bundle();
-                mBundle.putSerializable("SERVICE", mService);
-                mBundle.putSerializable("USER", user);
-                mBundle.putSerializable("PAYMENTCALLER", FillUpFormOthers.class);
-                i.putExtras(mBundle);
-                startActivity(i);
+                if (user.getCards() == null) {
+                    Intent i = new Intent(FillUpFormOthers.this, PaymentNew.class);
+                    Bundle mBundle = new Bundle();
+                    mBundle.putSerializable("SERVICE", mService);
+                    mBundle.putSerializable("USER", user);
+                    mBundle.putSerializable("PAYMENTCALLER", FillUpFormOthers.class);
+                    i.putExtras(mBundle);
+                    startActivity(i);
+
+                } else {
+                    Intent i = new Intent(FillUpFormOthers.this, Payment.class);
+                    Bundle mBundle = new Bundle();
+                    mBundle.putSerializable("SERVICE", mService);
+                    mBundle.putSerializable("USER", user);
+                    mBundle.putSerializable("PAYMENTCALLER", FillUpFormOthers.class);
+                    i.putExtras(mBundle);
+                    startActivity(i);
+                }
 
             }
         });

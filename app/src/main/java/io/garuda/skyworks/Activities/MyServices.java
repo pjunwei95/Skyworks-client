@@ -2,29 +2,18 @@ package io.garuda.skyworks.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 
-import io.garuda.skyworks.Adapters.SectionsPagerAdapter;
-import io.garuda.skyworks.Models.User;
+import io.garuda.skyworks.Fragments.ServiceListFragment;
 import io.garuda.skyworks.R;
 
 public class MyServices extends AppCompatActivity {
 
-    private SectionsPagerAdapter mSectionsPagerAdapter;
-    private ViewPager mViewPager;
-    private User user;
-    private Bundle extras;
-
+    Bundle extras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,19 +26,33 @@ public class MyServices extends AppCompatActivity {
         getSupportActionBar().setTitle("My Services");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
+        //get extras
         extras = getIntent().getExtras();
-        user = (User) extras.get("USER");
 
-
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), user, this);
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);
+        //load fragment (recycler view)
+        showFragment(ServiceListFragment.class, extras);
     }
 
+
+    //method to load recycler view fragment
+    private void showFragment(Class fragmentClass, Bundle extras) {
+
+        Fragment fragment = null;
+
+        try {
+            fragment = (Fragment) fragmentClass.newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        fragment.setArguments(extras);
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(io.garuda.skyworks.R.id.fl, fragment)
+                .commit();
+
+    }
 
     //setup links for menu item (back button)
     public boolean onOptionsItemSelected(MenuItem item) {

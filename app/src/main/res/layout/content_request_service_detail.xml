@@ -42,20 +42,20 @@
                     android:orientation="horizontal">
 
                     <RelativeLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1">
+                        android:layout_weight="0.3">
 
                         <ImageView
                             android:id="@+id/image"
                             android:layout_width="match_parent"
-                            android:layout_height="150dp" />
+                            android:layout_height="80dp" />
                     </RelativeLayout>
 
                     <RelativeLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1">
+                        android:layout_weight="0.7">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -81,7 +81,7 @@
                                 android:layout_marginTop="@dimen/activity_normal_margin"
                                 android:text="License Number"
                                 android:textColor="@color/colorPrimaryDark"
-                                android:textSize="@dimen/content_text_small" />
+                                android:textSize="@dimen/content_text" />
 
                             <TextView
                                 android:id="@+id/license"
@@ -90,7 +90,7 @@
                                 android:layout_marginLeft="@dimen/activity_smaller_margin"
                                 android:layout_marginTop="@dimen/activity_small_margin"
                                 android:textColor="@color/colorPrimary"
-                                android:textSize="@dimen/content_text_small" />
+                                android:textSize="@dimen/content_text" />
 
                         </LinearLayout>
 
@@ -259,7 +259,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_weight="0.25"
                     android:text="Price"
-                    android:textSize="@dimen/content_text_big"
+                    android:textSize="@dimen/content_text"
                     android:textColor="@color/colorPrimary"
                     android:paddingLeft="@dimen/activity_smaller_margin"/>
 
@@ -275,7 +275,7 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.75"
                         android:ems="10"
-                        android:textSize="@dimen/content_text_big"
+                        android:textSize="@dimen/content_text"
                         android:textColor="@color/colorPrimaryDarker"
                         android:paddingLeft="@dimen/activity_smaller_margin"/>
 

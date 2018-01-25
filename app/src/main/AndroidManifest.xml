@@ -5,12 +5,9 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
-
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
-
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -18,9 +15,10 @@
     <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <permission
-    android:name="io.garuda.skyworks.permission.MAPS_RECEIVE"
-    android:protectionLevel="signature"/>
-    <uses-permission android:name="io.garuda.skyworks.permission.MAPS_RECEIVE"/>
+        android:name="io.garuda.skyworks.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="io.garuda.skyworks.permission.MAPS_RECEIVE" />
 
     <uses-feature
         android:glEsVersion="0x00020000"
@@ -33,7 +31,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-
         <activity
             android:name=".Activities.Landing"
             android:label="@string/app_name"
@@ -75,7 +72,7 @@
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
         <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
+            android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
         <activity
@@ -157,7 +154,11 @@
             android:name=".Activities.MyServices"
             android:label="@string/title_activity_my_services"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme.Light" ></activity>
+            android:theme="@style/AppTheme.Light" />
+        <activity
+            android:name=".Activities.PaymentNew"
+            android:label="@string/title_activity_payment_new"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

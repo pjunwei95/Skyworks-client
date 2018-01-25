@@ -209,7 +209,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="0.25"
-            android:text="Special Requests"
+            android:text="Additional Info"
             android:textSize="@dimen/content_text"
             android:textColor="@color/colorPrimary"
             android:paddingLeft="@dimen/activity_smaller_margin"/>
@@ -224,26 +224,39 @@
                 android:id="@+id/specialRequest"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:ems="10"
                 android:lines="5"
+                android:ems="10"
                 android:textSize="@dimen/content_text_small"
                 android:textColor="@color/colorPrimaryDarker"/>
         </LinearLayout>
     </LinearLayout>
 
-    <Button
-        android:id="@+id/submit"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="5"
-        android:text="SUBMIT"
-        android:textColor="@color/white"
-        android:layout_marginTop="@dimen/big_margin"
-        android:textSize="@dimen/content_text"/>
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="bottom"
+            android:layout_alignParentBottom="true">
+
+            <Button
+                android:id="@+id/submit"
+                android:layout_gravity="center_horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="5"
+                android:text="SUBMIT"
+                android:textColor="@color/white"
+                android:layout_marginTop="@dimen/big_margin"
+                android:textSize="@dimen/content_text" />
+
+        </RelativeLayout>
 
 
-
+    </FrameLayout>
 
 
 

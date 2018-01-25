@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cvService"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="50dp"
     android:layout_marginBottom="@dimen/activity_vertical_margin"
     android:clickable="true"
     android:foreground="?android:attr/selectableItemBackground"
@@ -33,7 +33,7 @@
                 android:id="@+id/serviceName2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_small_margin"
+                android:layout_marginTop="@dimen/activity_smaller_margin"
                 android:layout_marginLeft="@dimen/activity_smaller_margin"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:textColor="@color/colorPrimaryDarker"
@@ -42,31 +42,34 @@
                 android:layout_centerVertical="true"
                 android:layout_alignParentTop="true"/>
 
-            <TextView
-                android:id="@+id/date_time2"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/serviceName"
-                android:layout_marginTop="@dimen/activity_small_margin"
-                android:layout_marginLeft="@dimen/activity_normal_margin"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/content_text_small"
-                android:maxLength="190"
-                tools:text="date_time"
-                />
+                android:orientation="horizontal"
+                android:layout_below="@id/serviceName2">
+                <TextView
+                    android:id="@+id/date_time2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_small_margin"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/content_text_small"
+                    android:maxLength="190"
+                    tools:text="date_time"
+                    />
 
-            <TextView
-                android:id="@+id/status2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/date_time"
-                android:layout_marginTop="@dimen/activity_small_margin"
-                android:layout_marginLeft="@dimen/activity_normal_margin"
-                android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/content_text_small"
-                android:maxLength="190"
-                tools:text="status"
-                />
+                <TextView
+                    android:id="@+id/status2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/activity_small_margin"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/content_text_small"
+                    android:maxLength="190"
+                    tools:text="status"
+                    />
+
+            </LinearLayout>
 
         </RelativeLayout>
 

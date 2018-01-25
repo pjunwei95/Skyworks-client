@@ -12,42 +12,43 @@ import android.view.ViewGroup;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.garuda.skyworks.Adapters.NotificationsRecyclerViewAdapter;
 import io.garuda.skyworks.Adapters.ServicesRecyclerViewAdapter;
 import io.garuda.skyworks.Models.User;
 import io.garuda.skyworks.R;
 
-public class CompleteServiceFragment extends Fragment {
+public class ServiceListFragment extends Fragment {
     @BindView(R.id.rvServices)
     RecyclerView rvServices;
     User user;
 
 
-    public CompleteServiceFragment() {
+    public ServiceListFragment() {
         // Required empty public constructor
     }
-
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_complete, container, false);
+        View view = inflater.inflate(R.layout.fragment_service_list, container, false);
         ButterKnife.bind(this, view);
 
 
         //set up manager
         LinearLayoutManager llm;
-        llm = new LinearLayoutManager(getActivity());
+        llm = new LinearLayoutManager(this.getContext());
 
         rvServices.setHasFixedSize(true);
         rvServices.setLayoutManager(llm);
 
 
+
         //pass in data
         user = (User) getArguments().getSerializable("USER");
 
-        ServicesRecyclerViewAdapter adapter = new ServicesRecyclerViewAdapter(getContext(), user, getArguments(), "Completed");
+        ServicesRecyclerViewAdapter adapter = new ServicesRecyclerViewAdapter(getContext(), user, getArguments());
 
         rvServices.setAdapter(adapter);
 

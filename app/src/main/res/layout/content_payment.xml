@@ -15,20 +15,43 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Choose your payment method"
+            android:textSize="@dimen/content_text"
+            android:textStyle="italic"
+            android:textColor="@color/colorPrimary"/>
+
         <ListView
             android:id="@+id/cardList"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"></ListView>
 
-        <Button
-            android:id="@+id/addMethod"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Add Payment Method"
-            android:textSize="@dimen/content_text"
-            android:layout_marginTop="@dimen/big_margin"/>
-
-
     </LinearLayout>
+
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="bottom"
+            android:layout_alignParentBottom="true">
+
+            <Button
+                android:id="@+id/addMethod"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Add Payment Method"
+                android:textSize="@dimen/content_text"
+                android:layout_marginTop="@dimen/big_margin"/>
+
+        </RelativeLayout>
+
+
+    </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>

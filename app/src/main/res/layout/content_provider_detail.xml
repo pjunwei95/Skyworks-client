@@ -42,20 +42,20 @@
                     android:orientation="horizontal">
 
                     <RelativeLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1">
+                        android:layout_weight="0.3">
 
                         <ImageView
                             android:id="@+id/image"
                             android:layout_width="match_parent"
-                            android:layout_height="150dp" />
+                            android:layout_height="80dp" />
                     </RelativeLayout>
 
                     <RelativeLayout
-                        android:layout_width="match_parent"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1">
+                        android:layout_weight="0.7">
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -81,7 +81,7 @@
                                 android:layout_marginTop="@dimen/activity_normal_margin"
                                 android:text="License Number"
                                 android:textColor="@color/colorPrimaryDark"
-                                android:textSize="@dimen/content_text_small" />
+                                android:textSize="@dimen/content_text" />
 
                             <TextView
                                 android:id="@+id/license"
@@ -90,7 +90,7 @@
                                 android:layout_marginLeft="@dimen/activity_smaller_margin"
                                 android:layout_marginTop="@dimen/activity_small_margin"
                                 android:textColor="@color/colorPrimary"
-                                android:textSize="@dimen/content_text_small" />
+                                android:textSize="@dimen/content_text" />
 
                         </LinearLayout>
 
@@ -115,7 +115,7 @@
                 android:layout_marginLeft="@dimen/activity_smaller_margin"
                 android:layout_marginTop="@dimen/activity_small_margin"
                 android:textColor="@color/colorPrimary"
-                android:textSize="@dimen/content_text_small" />
+                android:textSize="@dimen/content_text" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -124,14 +124,30 @@
                 android:text="Gallery"
                 android:textColor="@color/colorPrimaryDark"
                 android:textSize="@dimen/content_text_big"
-                android:textStyle="bold"/>
+                android:textStyle="bold"
+                />
 
 
             <io.garuda.skyworks.CustomViews.NonScrollListView
                 android:id="@+id/listView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"></io.garuda.skyworks.CustomViews.NonScrollListView>
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/content_text_big"></io.garuda.skyworks.CustomViews.NonScrollListView>
 
+
+        </LinearLayout>
+    </ScrollView>
+
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="bottom"
+            android:layout_alignParentBottom="true">
 
             <Button
                 android:id="@+id/button"
@@ -139,12 +155,13 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="@dimen/activity_normal_margin"
-                android:text="Confirm Pilot"
+                android:text="Hire This Pilot"
                 android:textColor="@color/white"
                 android:textSize="@dimen/content_text"/>
 
+        </RelativeLayout>
 
-        </LinearLayout>
-    </ScrollView>
+
+    </FrameLayout>
 
 </android.support.constraint.ConstraintLayout>

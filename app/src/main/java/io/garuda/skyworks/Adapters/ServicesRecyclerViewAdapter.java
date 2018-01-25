@@ -24,12 +24,6 @@ import io.garuda.skyworks.Activities.CompleteServiceDetailRate;
 import io.garuda.skyworks.Activities.MyServices;
 import io.garuda.skyworks.Activities.OngoingServiceDetail;
 import io.garuda.skyworks.Activities.RequestServiceDetail;
-import io.garuda.skyworks.Fragments.AcceptServiceFragment;
-import io.garuda.skyworks.Fragments.CompleteServiceFragment;
-import io.garuda.skyworks.Fragments.OngoingServiceFragment;
-import io.garuda.skyworks.Fragments.RequestServiceFragment;
-import io.garuda.skyworks.Models.CreditCard;
-import io.garuda.skyworks.Models.Provider;
 import io.garuda.skyworks.Models.Service;
 import io.garuda.skyworks.Models.User;
 import io.garuda.skyworks.R;
@@ -45,19 +39,11 @@ public class ServicesRecyclerViewAdapter extends RecyclerView.Adapter<ServicesRe
     User user;
     ArrayList<Service> services;
 
-    public ServicesRecyclerViewAdapter(Context context, User user, Bundle extras, String status) {
+    public ServicesRecyclerViewAdapter(Context context, User user, Bundle extras) {
         this.extras = extras;
         this.context = context;
         this.user = user;
         this.services = user.getServices();
-        /*
-        this.services = new ArrayList<Service>();
-
-        ArrayList<Service> userServices = user.getServices();
-        for (int i = 0; i < userServices.size(); i++) {
-            if (userServices.get(i).getStatus().equals(status))
-                this.services.add(userServices.get(i));
-        }*/
 
     }
 
@@ -83,7 +69,7 @@ public class ServicesRecyclerViewAdapter extends RecyclerView.Adapter<ServicesRe
 
         Picasso.with(getContext())
                 .load(service.getProvider().getPosterPath())//need to change to online URL!!
-                .resize(500, 500).centerInside()
+                .resize(150, 150).centerInside()
                 .into(holder.ivProviderImage);
 
     }

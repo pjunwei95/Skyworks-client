@@ -30,7 +30,7 @@ public class Providers extends AppCompatActivity implements Serializable{
         //setup toolbar
         Toolbar toolbar = (Toolbar) findViewById(io.garuda.skyworks.R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Choose Pilot");
+        getSupportActionBar().setTitle("Top Pilots For You");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //get extras

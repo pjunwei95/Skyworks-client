@@ -14,7 +14,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
@@ -38,7 +40,7 @@ public class ChooseLocation extends AppCompatActivity implements Serializable, G
     Bundle extras;
     Button pilot_button;
     GoogleMap googleMap;
-    ArrayList<LatLng> arrayPoints = null;
+    ArrayList<LatLng> arrayPoints = new ArrayList<LatLng>();
     PolylineOptions polylineOptions;
     boolean checkClick = false;
 
@@ -50,7 +52,7 @@ public class ChooseLocation extends AppCompatActivity implements Serializable, G
         //setup toolbar
         Toolbar toolbar = (Toolbar) findViewById(io.garuda.skyworks.R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Choose Location");
+        getSupportActionBar().setTitle("Draw Your Location");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         //get extras
@@ -78,6 +80,7 @@ public class ChooseLocation extends AppCompatActivity implements Serializable, G
 
         SupportMapFragment fm = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         googleMap = fm.getMap();
+
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -93,18 +96,18 @@ public class ChooseLocation extends AppCompatActivity implements Serializable, G
         googleMap.setOnMapLongClickListener(this);
         googleMap.setOnMarkerClickListener(this);
 
-
-
     }
 
-    @Override public void onMapClick(LatLng point) {
+    @Override
+    public void onMapClick(LatLng point) {
         if (checkClick == false) {
             googleMap.addMarker(new MarkerOptions().position(point));
             arrayPoints.add(point);
         }
     }
 
-    @Override public void onMapLongClick(LatLng point) {
+    @Override
+    public void onMapLongClick(LatLng point) {
         googleMap.clear();
         arrayPoints.clear();
         checkClick = false;
@@ -114,25 +117,21 @@ public class ChooseLocation extends AppCompatActivity implements Serializable, G
         if (arrayPoints.size() >= 3) {
             checkClick = true;
             PolygonOptions polygonOptions = new PolygonOptions();
-            polygonOptions.addAll(arrayPoints); polygonOptions.strokeColor(Color.BLUE);
-            polygonOptions.strokeWidth(7); polygonOptions.fillColor(Color.CYAN);
+            polygonOptions.addAll(arrayPoints);
+            polygonOptions.strokeColor(R.color.colorPrimaryDark);
+            polygonOptions.strokeWidth(7);
+            polygonOptions.fillColor(0x55607D8B);
             Polygon polygon = googleMap.addPolygon(polygonOptions);
         }
     }
 
-    @Override public boolean onMarkerClick(Marker marker) {
-        // TODO Auto-generated method stub
-        System.out.println("Marker lat long=" + marker.getPosition());
-        System.out.println("First postion check" + arrayPoints.get(0));
-        System.out .println("**********All arrayPoints***********" + arrayPoints);
+    @Override
+    public boolean onMarkerClick(Marker marker) {
         if (arrayPoints.get(0).equals(marker.getPosition())) {
-            System.out.println("********First Point choose************");
             countPolygonPoints();
         }
         return false;
     }
-
-
 
 
 
@@ -194,7 +193,6 @@ public class ChooseLocation extends AppCompatActivity implements Serializable, G
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
-
 
 
 

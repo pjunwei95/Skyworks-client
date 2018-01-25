@@ -5,7 +5,9 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.icu.util.Calendar;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -76,6 +78,7 @@ public class FillUpForm extends AppCompatActivity implements Serializable {
         //date picker
         date.setOnClickListener(new View.OnClickListener() {
 
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
@@ -97,6 +100,7 @@ public class FillUpForm extends AppCompatActivity implements Serializable {
 
         //time picker
         time.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
@@ -131,14 +135,26 @@ public class FillUpForm extends AppCompatActivity implements Serializable {
 
                 Service mService = new Service("request", service.getType(), sName, sNumber, sEmail, sDate, sTime, sReq, provider, null, null, -1);
 
-                Intent i = new Intent(FillUpForm.this, Payment.class);
-                Bundle mBundle = new Bundle();
-                mBundle.putSerializable("SERVICE", mService);
-                mBundle.putSerializable("PROVIDER", provider);
-                mBundle.putSerializable("USER", user);
-                mBundle.putSerializable("PAYMENTCALLER", FillUpForm.class);
-                i.putExtras(mBundle);
-                startActivity(i);
+                if (user.getCards() == null) {
+                    Intent i = new Intent(FillUpForm.this, PaymentNew.class);
+                    Bundle mBundle = new Bundle();
+                    mBundle.putSerializable("SERVICE", mService);
+                    mBundle.putSerializable("PROVIDER", provider);
+                    mBundle.putSerializable("USER", user);
+                    mBundle.putSerializable("PAYMENTCALLER", FillUpForm.class);
+                    i.putExtras(mBundle);
+                    startActivity(i);
+
+                } else {
+                    Intent i = new Intent(FillUpForm.this, Payment.class);
+                    Bundle mBundle = new Bundle();
+                    mBundle.putSerializable("SERVICE", mService);
+                    mBundle.putSerializable("PROVIDER", provider);
+                    mBundle.putSerializable("USER", user);
+                    mBundle.putSerializable("PAYMENTCALLER", FillUpForm.class);
+                    i.putExtras(mBundle);
+                    startActivity(i);
+                }
 
             }
         });

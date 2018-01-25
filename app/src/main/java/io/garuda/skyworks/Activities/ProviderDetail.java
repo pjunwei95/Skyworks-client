@@ -65,7 +65,7 @@ public class ProviderDetail extends AppCompatActivity implements Serializable{
         license.setText(provider.getLicenseNumber());
         Picasso.with(this)
                 .load(provider.getPosterPath())//need to change to online URL!!
-                .fit()
+                .resize(500, 500).centerInside()
                 .into(logo);
 
 
