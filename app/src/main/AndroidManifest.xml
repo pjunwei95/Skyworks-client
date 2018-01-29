@@ -36,7 +36,7 @@
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.Dark"
-            android:windowSoftInputMode="stateHidden">
+            >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -159,7 +159,7 @@
         <activity
             android:name=".Activities.PaymentNew"
             android:label="@string/title_activity_payment_new"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.Light"></activity>
     </application>
 
 </manifest>
