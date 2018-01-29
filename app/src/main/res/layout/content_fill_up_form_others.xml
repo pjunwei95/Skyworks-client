@@ -157,7 +157,8 @@
                 android:text="Date"
                 android:textSize="@dimen/content_text"
                 android:textColor="@color/colorPrimary"
-                android:paddingLeft="@dimen/activity_smaller_margin"/>
+                android:paddingLeft="@dimen/activity_smaller_margin"
+                android:textIsSelectable="true"/>
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -193,7 +194,8 @@
                 android:text="Time"
                 android:textSize="@dimen/content_text"
                 android:textColor="@color/colorPrimary"
-                android:paddingLeft="@dimen/activity_smaller_margin"/>
+                android:paddingLeft="@dimen/activity_smaller_margin"
+                android:textIsSelectable="true"/>
 
             <LinearLayout
                 android:layout_width="0dp"

@@ -31,7 +31,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Tap on the map to draw area of choice"
+            android:text="Tap on the map to draw area of choice. Long tap to clear all markers. Tap on first marker to complete shape."
             android:textStyle="italic"
             android:textSize="12dp"
             android:textColor="@color/colorPrimary"/>
