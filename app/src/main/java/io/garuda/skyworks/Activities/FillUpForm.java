@@ -119,7 +119,7 @@ public class FillUpForm extends AppCompatActivity implements Serializable {
                 mTimePicker = new TimePickerDialog(FillUpForm.this, AlertDialog.THEME_HOLO_DARK, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int selectedHour, int selectedMinute) {
-                        time.setText( selectedHour + ":" + selectedMinute);
+                        time.setText(String.format("%02d:%02d", selectedHour, selectedMinute));
                     }
                 }, mHour, mMinute, true);//Yes 24 hour time
                 mTimePicker.setTitle("Select Time");

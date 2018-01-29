@@ -208,9 +208,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:ems="10"
-                    android:textSize="@dimen/content_text"
+                    android:focusable="false"
                     android:text="Pick a Time"
-                    android:textColor="@color/colorPrimaryDarker"/>
+                    android:textColor="@color/colorPrimaryDarker"
+                    android:textSize="@dimen/content_text" />
 
             </LinearLayout>
         </LinearLayout>
