@@ -18,9 +18,11 @@ import io.garuda.skyworks.Models.Service;
 import io.garuda.skyworks.Models.User;
 import io.garuda.skyworks.R;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 public class ProviderDetail extends AppCompatActivity implements Serializable{
 
@@ -33,6 +35,7 @@ public class ProviderDetail extends AppCompatActivity implements Serializable{
     ImageView logo;
     Bundle extras;
     Button confirm_button;
+    ArrayList<LatLng> arrayPoints;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +47,7 @@ public class ProviderDetail extends AppCompatActivity implements Serializable{
         provider = (Provider) extras.getSerializable("PROVIDER");
         service = (Service) extras.getSerializable("SERVICE");
         user = (User) extras.get("USER");
+        arrayPoints = (ArrayList<LatLng>) extras.getSerializable("LOC");
 
         //setup toolbar
         Toolbar toolbar = (Toolbar) findViewById(io.garuda.skyworks.R.id.toolbar);
@@ -84,6 +88,7 @@ public class ProviderDetail extends AppCompatActivity implements Serializable{
                 mBundle.putSerializable("PROVIDER", provider);
                 mBundle.putSerializable("SERVICE", service);
                 mBundle.putSerializable("USER", user);
+                mBundle.putSerializable("LOC", arrayPoints);
                 i.putExtras(mBundle);
                 startActivity(i);
             }

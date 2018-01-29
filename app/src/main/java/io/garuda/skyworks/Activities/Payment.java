@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,11 +20,16 @@ import android.widget.TextView;
 import java.io.Serializable;
 
 import io.garuda.skyworks.Adapters.CreditCardListAdapter;
+import io.garuda.skyworks.Data.APIService;
+import io.garuda.skyworks.Data.ApiUtils;
 import io.garuda.skyworks.Models.CreditCard;
 import io.garuda.skyworks.Models.Provider;
 import io.garuda.skyworks.Models.Service;
 import io.garuda.skyworks.Models.User;
 import io.garuda.skyworks.R;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Payment extends AppCompatActivity implements Serializable{
 
@@ -34,6 +40,7 @@ public class Payment extends AppCompatActivity implements Serializable{
     ListView cardList;
     Bundle extras;
     Button add;
+    APIService mAPIService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +63,9 @@ public class Payment extends AppCompatActivity implements Serializable{
         cardList = (ListView) findViewById(io.garuda.skyworks.R.id.cardList);
         add = (Button) findViewById(io.garuda.skyworks.R.id.addMethod);
 
+        //setup API Client
+        mAPIService = ApiUtils.getAPIService();
+
         //create and setup adapter for credit card list
         adapter = new CreditCardListAdapter(this, user.getCards());
         cardList.setAdapter(adapter);
@@ -74,8 +84,11 @@ public class Payment extends AppCompatActivity implements Serializable{
                     //deletes this item from order
                     public void onClick(DialogInterface dialog, int which) {
                         CreditCard card = user.getCards().get(position);
-                        service.setPaymentMethod(card);
+
+                        //service.setPaymentMethod(card);
                         user.addService(service);
+                        sendJob(service);
+
                         Intent i = new Intent(Payment.this, Confirmation.class);
                         Bundle mBundle = new Bundle();
                         mBundle.putSerializable("PROVIDER", provider);
@@ -110,6 +123,22 @@ public class Payment extends AppCompatActivity implements Serializable{
         });
 
     }
+
+    public void sendJob(Service service) {
+        mAPIService.saveJob(service).enqueue(new Callback<Service>() {
+            @Override
+            public void onResponse(Call<Service> call, Response<Service> response) {
+                if(response.isSuccessful()) {
+                    Log.i("TAG", "job submitted to API.");
+                }
+            }
+            @Override
+            public void onFailure(Call<Service> call, Throwable t) {
+                Log.e("TAG", t.toString());
+            }
+        });
+    }
+
 
 
     //links for menu items

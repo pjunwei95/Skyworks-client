@@ -16,13 +16,14 @@ import android.widget.ImageView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GalleryListAdapter extends ArrayAdapter<String>{
     private final Activity context;
-    private final ArrayList<String> imageUrls;
+    private final List<String> imageUrls;
     private LayoutInflater inflater;
 
-    public GalleryListAdapter(Activity context, ArrayList<String> imageUrls) {
+    public GalleryListAdapter(Activity context, List<String> imageUrls) {
         super(context, io.garuda.skyworks.R.layout.gallery_list_item, imageUrls);
         this.context = context;
         this.imageUrls = imageUrls;

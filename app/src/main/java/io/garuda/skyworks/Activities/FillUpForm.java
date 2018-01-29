@@ -19,7 +19,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.UUID;
 
 import io.garuda.skyworks.Models.Provider;
 import io.garuda.skyworks.Models.Service;
@@ -40,6 +44,7 @@ public class FillUpForm extends AppCompatActivity implements Serializable {
     TextView type;
     Button submit;
     Bundle extras;
+    ArrayList<LatLng> arrayPoints;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +73,7 @@ public class FillUpForm extends AppCompatActivity implements Serializable {
         provider = (Provider) extras.getSerializable("PROVIDER");
         service = (Service) extras.getSerializable("SERVICE");
         user = (User) extras.get("USER");
+        arrayPoints = (ArrayList<LatLng>) extras.getSerializable("LOC");
 
         //setup with texts with known details
         type.setText(service.getType());
@@ -132,8 +138,12 @@ public class FillUpForm extends AppCompatActivity implements Serializable {
                 String sDate = date.getText().toString().trim();
                 String sTime = time.getText().toString().trim();
                 String sReq = req.getText().toString().trim();
+                String uniqueID = UUID.randomUUID().toString();
 
-                Service mService = new Service("request", service.getType(), sName, sNumber, sEmail, sDate, sTime, sReq, provider, null, null, -1);
+                Service mService = new Service(uniqueID, sReq, "request", sDate, sName, sEmail, sNumber,
+                        service.getType(), "operator1", -1, sTime, "card1", "", -1, arrayPoints);
+
+                //Service mService = new Service("request", service.getType(), sName, sNumber, sEmail, sDate, sTime, sReq, provider, null, null, -1);
 
                 if (user.getCards() == null) {
                     Intent i = new Intent(FillUpForm.this, PaymentNew.class);

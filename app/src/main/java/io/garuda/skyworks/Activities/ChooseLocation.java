@@ -71,6 +71,7 @@ public class ChooseLocation extends AppCompatActivity implements Serializable, G
                 Bundle mBundle = new Bundle();
                 mBundle.putSerializable("SERVICE", service);
                 mBundle.putSerializable("USER", user);
+                mBundle.putSerializable("LOC", arrayPoints);
                 i.putExtras(mBundle);
                 startActivity(i);
 

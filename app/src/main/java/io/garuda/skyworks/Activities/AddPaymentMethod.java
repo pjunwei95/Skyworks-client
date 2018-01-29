@@ -162,7 +162,7 @@ public class AddPaymentMethod extends AppCompatActivity implements FragmentManag
 
             user.addCard(new CreditCard(cardNumber, CreditCardUtils.getCardType(cardNumber), cardName, cardValidity, cardCVV));
 
-            Intent i = new Intent(AddPaymentMethod.this, (Class) extras.get("CALLER2"));
+            Intent i = new Intent(AddPaymentMethod.this, (Class) extras.get("CALLER1"));
             Bundle mBundle = new Bundle();
             mBundle.putSerializable("USER", user);
             i.putExtras(extras);

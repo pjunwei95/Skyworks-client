@@ -2,21 +2,54 @@ package io.garuda.skyworks.Models;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 public class Provider implements Serializable{
 
+    @SerializedName("gallery")
+    @Expose
+    private List<String> gallery;
+    @SerializedName("_id")
+    @Expose
+    private String id;
+    @SerializedName("username")
+    @Expose
     private String name;
+    @SerializedName("password")
+    @Expose
+    private String password;
+    @SerializedName("email")
+    @Expose
+    private String email;
+    @SerializedName("phone")
+    @Expose
+    private Integer phone;
+    @SerializedName("type")
+    @Expose
+    private String type;
+    @SerializedName("about_us")
+    @Expose
     private String overview;
-    private String posterPath;
+    @SerializedName("__v")
+    @Expose
+    private Integer v;
+    @SerializedName("license_number")
+    @Expose
     private String licenseNumber;
-    private ArrayList<String> Gallery;
+    @SerializedName("logo_path")
+    @Expose
+    private String posterPath;
 
-    public Provider(String name, String overview, String posterPath, String licenseNumber, ArrayList<String> gallery) {
+
+
+    public Provider(String name, String overview, String posterPath, String licenseNumber, List<String> gallery) {
         this.name = name;
         this.overview = overview;
         this.posterPath = posterPath;
         this.licenseNumber = licenseNumber;
-        Gallery = gallery;
+        this.gallery = gallery;
     }
 
     public String getName() {
@@ -51,11 +84,11 @@ public class Provider implements Serializable{
         this.licenseNumber = licenseNumber;
     }
 
-    public ArrayList<String> getGallery() {
-        return Gallery;
+    public List<String> getGallery() {
+        return gallery;
     }
 
-    public void setGallery(ArrayList<String> gallery) {
-        Gallery = gallery;
+    public void setGallery(List<String> gallery) {
+        gallery = gallery;
     }
 }

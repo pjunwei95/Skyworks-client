@@ -6,15 +6,23 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import java.io.Serializable;
+import java.util.List;
 
+import io.garuda.skyworks.Data.APIService;
+import io.garuda.skyworks.Data.ApiUtils;
 import io.garuda.skyworks.Fragments.ProvidersListFragment;
+import io.garuda.skyworks.Models.Provider;
 import io.garuda.skyworks.Models.Service;
 import io.garuda.skyworks.Models.User;
 import io.garuda.skyworks.R;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Providers extends AppCompatActivity implements Serializable{
 
@@ -33,10 +41,9 @@ public class Providers extends AppCompatActivity implements Serializable{
         getSupportActionBar().setTitle("Top Pilots For You");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
         //get extras
         extras = getIntent().getExtras();
-        service = (Service) extras.getSerializable("SERVICE");
-        user = (User) extras.get("USER");
 
         //load fragment (recycler view)
         showFragment(ProvidersListFragment.class, extras);

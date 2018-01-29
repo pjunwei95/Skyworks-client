@@ -14,6 +14,7 @@ import io.garuda.skyworks.Models.User;
 import io.garuda.skyworks.R;
 
 import java.io.Serializable;
+import java.util.Stack;
 
 public class ChooseService extends AppCompatActivity implements Serializable {
 
@@ -23,6 +24,8 @@ public class ChooseService extends AppCompatActivity implements Serializable {
     ImageButton media_button;
     ImageButton mapping_button;
     ImageButton others_button;
+    Stack<Class> caller_stack;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +36,9 @@ public class ChooseService extends AppCompatActivity implements Serializable {
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Select Services");
 
+        //setup caller stack
+        caller_stack = new Stack<>();
+        caller_stack.push(ChooseService.class);
 
         //binding views
         inspection_button = (ImageButton) findViewById(io.garuda.skyworks.R.id.inspection);

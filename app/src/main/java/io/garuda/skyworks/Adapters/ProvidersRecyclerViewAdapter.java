@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,8 +16,11 @@ import io.garuda.skyworks.Models.Provider;
 import io.garuda.skyworks.Models.Service;
 import io.garuda.skyworks.Models.User;
 import io.garuda.skyworks.R;
+
+import com.google.android.gms.maps.model.LatLng;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -34,12 +38,14 @@ public class ProvidersRecyclerViewAdapter extends RecyclerView.Adapter<Providers
     Context context;
     Service service;
     User user;
+    ArrayList<LatLng> arrayPoints;
 
-    public ProvidersRecyclerViewAdapter(Context context, List<Provider> providers, Service service, User user) {
+    public ProvidersRecyclerViewAdapter(Context context, List<Provider> providers, Service service, User user, ArrayList<LatLng> arrayPoints) {
         this.providers = providers;
         this.context = context;
         this.service = service;
         this.user = user;
+        this.arrayPoints = arrayPoints;
     }
 
     private Context getContext(){
@@ -65,7 +71,6 @@ public class ProvidersRecyclerViewAdapter extends RecyclerView.Adapter<Providers
                 .load(provider.getPosterPath())//need to change to online URL!!
                 .resize(150, 150).centerInside()
                 .into(holder.ivProviderImage);
-
 
     }
 
@@ -98,6 +103,7 @@ public class ProvidersRecyclerViewAdapter extends RecyclerView.Adapter<Providers
             intent.putExtra("SERVICE", service);
             intent.putExtra("PROVIDER", provider);
             intent.putExtra("USER", user);
+            intent.putExtra("LOC", arrayPoints);
             getContext().startActivity(intent);
 
 
