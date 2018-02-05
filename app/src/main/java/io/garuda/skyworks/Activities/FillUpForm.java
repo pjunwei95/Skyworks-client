@@ -3,13 +3,17 @@ package io.garuda.skyworks.Activities;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import java.util.Calendar;
+
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,10 +29,15 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.UUID;
 
+import io.garuda.skyworks.Data.APIService;
+import io.garuda.skyworks.Data.ApiUtils;
 import io.garuda.skyworks.Models.Provider;
 import io.garuda.skyworks.Models.Service;
 import io.garuda.skyworks.Models.User;
 import io.garuda.skyworks.R;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class FillUpForm extends AppCompatActivity implements Serializable {
 
@@ -45,6 +54,9 @@ public class FillUpForm extends AppCompatActivity implements Serializable {
     Button submit;
     Bundle extras;
     ArrayList<LatLng> arrayPoints;
+    APIService mAPIService;
+    SharedPreferences sharedPref;
+    Boolean isNewUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,14 +84,37 @@ public class FillUpForm extends AppCompatActivity implements Serializable {
         extras = getIntent().getExtras();
         provider = (Provider) extras.getSerializable("PROVIDER");
         service = (Service) extras.getSerializable("SERVICE");
-        user = (User) extras.get("USER");
         arrayPoints = (ArrayList<LatLng>) extras.getSerializable("LOC");
 
-        //setup with texts with known details
-        type.setText(service.getType());
-        name.setText(user.getName());
-        number.setText(user.getContactNumber());
-        email.setText(user.getEmail());
+
+        sharedPref = getSharedPreferences("MYPREF", Context.MODE_PRIVATE);
+        String userID = sharedPref.getString("USER", "");
+
+        //setup API Client
+        mAPIService = ApiUtils.getAPIService();
+        mAPIService.getUser(userID).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+
+                if(response.isSuccessful()) {
+                    user = response.body();
+
+                    //setup with texts with known details
+                    type.setText(service.getType());
+                    name.setText(user.getName());
+                    number.setText(user.getContactNumber());
+                    email.setText(user.getEmail());
+
+                    isNewUser = user.getCardIds() == null;
+                }
+
+            }
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Log.e("TAG", t.toString());
+            }
+        });
+
 
         //date picker
         date.setOnClickListener(new View.OnClickListener() {
@@ -138,19 +173,17 @@ public class FillUpForm extends AppCompatActivity implements Serializable {
                 String sDate = date.getText().toString().trim();
                 String sTime = time.getText().toString().trim();
                 String sReq = req.getText().toString().trim();
-                String uniqueID = UUID.randomUUID().toString();
 
-                Service mService = new Service(uniqueID, sReq, "request", sDate, sName, sEmail, sNumber,
-                        service.getType(), "operator1", -1, sTime, "card1", "", -1, arrayPoints);
+                Service mService = new Service("", sReq, "request", sDate, sName, sEmail, sNumber,
+                        service.getType(), "operator1", sTime, "card1", "", -1, null);
 
-                //Service mService = new Service("request", service.getType(), sName, sNumber, sEmail, sDate, sTime, sReq, provider, null, null, -1);
 
-                if (user.getCards() == null) {
+                if (isNewUser) {
                     Intent i = new Intent(FillUpForm.this, PaymentNew.class);
                     Bundle mBundle = new Bundle();
                     mBundle.putSerializable("SERVICE", mService);
                     mBundle.putSerializable("PROVIDER", provider);
-                    mBundle.putSerializable("USER", user);
+                    mBundle.putSerializable("LOC", arrayPoints);
                     mBundle.putSerializable("PAYMENTCALLER", FillUpForm.class);
                     i.putExtras(mBundle);
                     startActivity(i);
@@ -160,7 +193,7 @@ public class FillUpForm extends AppCompatActivity implements Serializable {
                     Bundle mBundle = new Bundle();
                     mBundle.putSerializable("SERVICE", mService);
                     mBundle.putSerializable("PROVIDER", provider);
-                    mBundle.putSerializable("USER", user);
+                    mBundle.putSerializable("LOC", arrayPoints);
                     mBundle.putSerializable("PAYMENTCALLER", FillUpForm.class);
                     i.putExtras(mBundle);
                     startActivity(i);

@@ -28,7 +28,6 @@ public class ProviderDetail extends AppCompatActivity implements Serializable{
 
     Provider provider;
     Service service;
-    User user;
     TextView bio;
     TextView name;
     TextView license;
@@ -46,7 +45,6 @@ public class ProviderDetail extends AppCompatActivity implements Serializable{
         extras = getIntent().getExtras();
         provider = (Provider) extras.getSerializable("PROVIDER");
         service = (Service) extras.getSerializable("SERVICE");
-        user = (User) extras.get("USER");
         arrayPoints = (ArrayList<LatLng>) extras.getSerializable("LOC");
 
         //setup toolbar
@@ -87,7 +85,6 @@ public class ProviderDetail extends AppCompatActivity implements Serializable{
                 Bundle mBundle = new Bundle();
                 mBundle.putSerializable("PROVIDER", provider);
                 mBundle.putSerializable("SERVICE", service);
-                mBundle.putSerializable("USER", user);
                 mBundle.putSerializable("LOC", arrayPoints);
                 i.putExtras(mBundle);
                 startActivity(i);

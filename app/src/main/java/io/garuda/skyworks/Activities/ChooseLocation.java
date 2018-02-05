@@ -3,6 +3,7 @@ package io.garuda.skyworks.Activities;
 import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Location;
@@ -35,9 +36,14 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import io.garuda.skyworks.Data.APIService;
+import io.garuda.skyworks.Data.ApiUtils;
 import io.garuda.skyworks.Models.Service;
 import io.garuda.skyworks.Models.User;
 import io.garuda.skyworks.R;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ChooseLocation extends AppCompatActivity implements Serializable, GoogleMap.OnMapClickListener, GoogleMap.OnMapLongClickListener, GoogleMap.OnMarkerClickListener {
 
@@ -50,6 +56,7 @@ public class ChooseLocation extends AppCompatActivity implements Serializable, G
     PolylineOptions polylineOptions;
     boolean checkClick = false;
     LocationListener mListener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,7 +72,7 @@ public class ChooseLocation extends AppCompatActivity implements Serializable, G
         //get extras
         extras = getIntent().getExtras();
         service = (Service) extras.get("SERVICE");
-        user = (User) extras.get("USER");
+
 
         //bind views
         pilot_button = (Button) findViewById(io.garuda.skyworks.R.id.pilot);

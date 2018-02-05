@@ -8,10 +8,9 @@ public class ApiUtils {
 
     private ApiUtils() {}
 
-    public static final String BASE_URL = "http://192.168.0.102:3003";
+    public static final String BASE_URL = "http://172.25.96.31:3003";
 
     public static APIService getAPIService() {
-
         return RetrofitClient.getClient(BASE_URL).create(APIService.class);
     }
 }

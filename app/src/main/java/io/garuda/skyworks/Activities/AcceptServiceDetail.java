@@ -1,7 +1,9 @@
 package io.garuda.skyworks.Activities;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -19,12 +21,18 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import io.garuda.skyworks.Data.APIService;
+import io.garuda.skyworks.Data.ApiUtils;
 import io.garuda.skyworks.Models.CreditCard;
 import io.garuda.skyworks.Models.Provider;
 import io.garuda.skyworks.Models.Service;
 import io.garuda.skyworks.Models.User;
 import io.garuda.skyworks.R;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AcceptServiceDetail extends AppCompatActivity {
 
@@ -42,6 +50,9 @@ public class AcceptServiceDetail extends AppCompatActivity {
     Provider provider;
     User user;
     Service selectedService;
+    APIService mAPIService;
+    SharedPreferences sharedPref;
+    String userID;
 
 
     @Override
@@ -58,9 +69,37 @@ public class AcceptServiceDetail extends AppCompatActivity {
 
         //get extras
         extras = getIntent().getExtras();
-        user = (User) extras.getSerializable("USER");
         selectedService = (Service) extras.getSerializable("SELECTEDSERVICE");
-        provider = selectedService.getProvider();
+
+        mAPIService = ApiUtils.getAPIService();
+        mAPIService.getProvider(selectedService.getOperatorID()).enqueue(new Callback<Provider>() {
+            @Override
+            public void onResponse(Call<Provider> call, Response<Provider> response) {
+
+                if(response.isSuccessful()) {
+                    provider = response.body();
+
+                    //update views with data
+                    Picasso.with(getApplicationContext())
+                            .load(provider.getPosterPath())
+                            .resize(500, 500).centerInside()
+                            .into(image);
+                    name.setText(provider.getName());
+                    license.setText(provider.getLicenseNumber());
+                    jobType.setText(selectedService.getType());
+                    date.setText(selectedService.getDate());
+                    time.setText(selectedService.getTime());
+                    specialRequest.setText(selectedService.getSpecialRequest());
+                    price.setText(selectedService.getQuotation());
+                }
+            }
+            @Override
+            public void onFailure(Call<Provider> call, Throwable t) {
+                Log.e("TAG", t.toString());
+            }
+        });
+
+
 
         //bind views
         image = (ImageView) findViewById(io.garuda.skyworks.R.id.image);
@@ -75,6 +114,7 @@ public class AcceptServiceDetail extends AppCompatActivity {
         decline = (Button) findViewById(R.id.decline);
 
 
+        /*
         //update views with data
         Picasso.with(this)
                 .load(provider.getPosterPath())
@@ -87,7 +127,7 @@ public class AcceptServiceDetail extends AppCompatActivity {
         time.setText(selectedService.getTime());
         specialRequest.setText(selectedService.getSpecialRequest());
         price.setText(selectedService.getQuotation());
-
+        */
 
 
         //button listener
@@ -102,26 +142,22 @@ public class AcceptServiceDetail extends AppCompatActivity {
                 ad.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
                     //deletes this item from order
                     public void onClick(DialogInterface dialog, int which) {
-                        ArrayList<Service> services = user.getServices();
-                        for (int i = 0; i < services.size(); i++) {
-                            if (services.get(i).getType().equals(selectedService.getType())
-                                    && services.get(i).getStatus().equals(selectedService.getStatus())
-                                    && services.get(i).getDate().equals(selectedService.getDate())
-                                    && services.get(i).getTime().equals(selectedService.getTime())
-                                    && services.get(i).getSpecialRequest().equals(selectedService.getSpecialRequest())
-                                    && services.get(i).getProvider().getLicenseNumber().equals(selectedService.getProvider().getLicenseNumber())
-                                    && services.get(i).getPaymentMethod().getCardNum().equals(selectedService.getPaymentMethod().getCardNum())
-                                    && services.get(i).getQuotation().equals(selectedService.getQuotation())) {
-                                services.remove(i);
-                            }
-                        }
-                        user.setServices(services);
                         selectedService.setStatus("Ongoing");
-                        user.addService(selectedService);
-                        Intent i = new Intent(AcceptServiceDetail.this, (Class) extras.get("CALLER1"));
-                        i.putExtras(extras);
-                        i.putExtra("USER", user);
-                        startActivity(i);
+                        mAPIService.postJob(selectedService.getId(), selectedService).enqueue(new Callback<Service>() {
+                            @Override
+                            public void onResponse(Call<Service> call, Response<Service> response) {
+                                if(response.isSuccessful()) {
+                                    Intent i = new Intent(AcceptServiceDetail.this, (Class) extras.get("CALLER1"));
+                                    i.putExtras(extras);
+                                    startActivity(i);
+                                }
+                            }
+                            @Override
+                            public void onFailure(Call<Service> call, Throwable t) {
+                                Log.e("TAG", t.toString());
+                            }
+                        });
+
                     }
                 });
                 ad.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {
@@ -145,15 +181,22 @@ public class AcceptServiceDetail extends AppCompatActivity {
                 ad.setPositiveButton("Decline", new DialogInterface.OnClickListener() {
                     //deletes this item from order
                     public void onClick(DialogInterface dialog, int which) {
-                        user.removeService(selectedService);
                         selectedService.setStatus("Completed");
-                        user.addService(selectedService);
-                        Intent i = new Intent(AcceptServiceDetail.this, (Class) extras.get("CALLER1"));
-                        Bundle mBundle = new Bundle();
-                        mBundle.putSerializable("USER", user);
-                        i.putExtras(extras);
-                        i.putExtras(mBundle);
-                        startActivity(i);
+                        mAPIService.postJob(selectedService.getId(), selectedService).enqueue(new Callback<Service>() {
+                            @Override
+                            public void onResponse(Call<Service> call, Response<Service> response) {
+                                if(response.isSuccessful()) {
+                                    Intent i = new Intent(AcceptServiceDetail.this, (Class) extras.get("CALLER1"));
+                                    i.putExtras(extras);
+                                    startActivity(i);
+                                }
+                            }
+                            @Override
+                            public void onFailure(Call<Service> call, Throwable t) {
+                                Log.e("TAG", t.toString());
+                            }
+                        });
+
                     }
                 });
                 ad.setNeutralButton("Cancel", new DialogInterface.OnClickListener() {

@@ -1,6 +1,7 @@
 package io.garuda.skyworks.Activities;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -29,6 +30,8 @@ public class Providers extends AppCompatActivity implements Serializable{
     Service service;
     User user;
     Bundle extras;
+    APIService mAPIService;
+    SharedPreferences sharedPref;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

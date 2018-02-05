@@ -1,11 +1,15 @@
 package io.garuda.skyworks.Activities;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,11 +20,18 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import io.garuda.skyworks.Adapters.CreditCardListAdapter;
+import io.garuda.skyworks.Data.APIService;
+import io.garuda.skyworks.Data.ApiUtils;
 import io.garuda.skyworks.Models.CreditCard;
 import io.garuda.skyworks.Models.User;
 import io.garuda.skyworks.R;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MyWallet extends AppCompatActivity implements Serializable{
 
@@ -29,6 +40,11 @@ public class MyWallet extends AppCompatActivity implements Serializable{
     ListView ccList;
     Button add;
     CreditCardListAdapter adapter1;
+    APIService mAPIService;
+    SharedPreferences sharedPref;
+    String userID;
+    ArrayList<CreditCard> cards;
+    List<String> cardIds;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,16 +59,56 @@ public class MyWallet extends AppCompatActivity implements Serializable{
 
         //get extras
         extras = getIntent().getExtras();
-        user = (User) extras.get("USER");
+
+        sharedPref = getSharedPreferences("MYPREF", Context.MODE_PRIVATE);
+        userID = sharedPref.getString("USER", "");
+
+        //setup API Client
+        final Activity activity = this;
+        mAPIService = ApiUtils.getAPIService();
+        mAPIService.getUser(userID).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+
+                if(response.isSuccessful()) {
+                    user = response.body();
+                    cardIds = user.getCardIds();
+                    cards = new ArrayList<>();
+
+                    //create and setup adapter for credit card list
+                    for(int i = 0; i < cardIds.size(); i++) {
+                        mAPIService.getCard(cardIds.get(i)).enqueue(new Callback<CreditCard>() {
+                            @Override
+                            public void onResponse(Call<CreditCard> call, Response<CreditCard> response) {
+                                if(response.isSuccessful()) {
+                                    CreditCard card = response.body();
+                                    cards.add(card);
+
+                                    //create and setup adapter for credit card list
+                                    adapter1 = new CreditCardListAdapter(activity, cards);
+                                    ccList.setAdapter(adapter1);
+                                }
+                            }
+                            @Override
+                            public void onFailure(Call<CreditCard> call, Throwable t) {
+                                Log.e("TAG", t.toString());
+                            }
+                        });
+                    }
+                }
+            }
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Log.e("TAG", t.toString());
+            }
+        });
 
         //bind view
         ccList = (ListView) findViewById(io.garuda.skyworks.R.id.cclist);
         add = (Button) findViewById(io.garuda.skyworks.R.id.add);
 
 
-        //create and setup adapter for credit card list
-        adapter1 = new CreditCardListAdapter(this, user.getCards());
-        ccList.setAdapter(adapter1);
+
 
 
         //listener when click credit card (delete or not)
@@ -68,8 +124,35 @@ public class MyWallet extends AppCompatActivity implements Serializable{
                 ad.setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                     //deletes this item from order
                     public void onClick(DialogInterface dialog, int which) {
-                        CreditCard card = user.getCards().get(position);
-                        user.removeCard(card);
+                        String cardId = cardIds.get(position);
+
+                        mAPIService.deleteCard(cardId).enqueue(new Callback<CreditCard>() {
+                            @Override
+                            public void onResponse(Call<CreditCard> call, Response<CreditCard> response) {
+                                if(response.isSuccessful()) {
+
+                                }
+                            }
+                            @Override
+                            public void onFailure(Call<CreditCard> call, Throwable t) {
+                                Log.e("TAG", t.toString());
+                            }
+                        });
+
+                        user.removeCardId(cardId);
+                        mAPIService.postUser(userID, user).enqueue(new Callback<User>() {
+                            @Override
+                            public void onResponse(Call<User> call, Response<User> response) {
+                                if(response.isSuccessful()) {
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<User> call, Throwable t) {
+                                Log.e("TAG", t.toString());
+                            }
+                        });
+
                         adapter1.notifyDataSetChanged();
                         Intent i = new Intent(MyWallet.this, MyWallet.class);
                         Bundle mBundle = new Bundle();

@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -18,10 +19,15 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import io.garuda.skyworks.Data.APIService;
+import io.garuda.skyworks.Data.ApiUtils;
 import io.garuda.skyworks.Models.Provider;
 import io.garuda.skyworks.Models.Service;
 import io.garuda.skyworks.Models.User;
 import io.garuda.skyworks.R;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CompleteServiceDetailRate extends AppCompatActivity {
 
@@ -38,6 +44,8 @@ public class CompleteServiceDetailRate extends AppCompatActivity {
     Provider provider;
     User user;
     Service selectedService;
+    String providerID;
+    APIService mAPIService;
 
 
     @Override
@@ -54,7 +62,36 @@ public class CompleteServiceDetailRate extends AppCompatActivity {
         extras = getIntent().getExtras();
         user = (User) extras.getSerializable("USER");
         selectedService = (Service) extras.getSerializable("SELECTEDSERVICE");
-        provider = selectedService.getProvider();
+        providerID = selectedService.getOperatorID();
+
+        //setup API Client
+        mAPIService = ApiUtils.getAPIService();
+        mAPIService.getProvider(providerID).enqueue(new Callback<Provider>() {
+            @Override
+            public void onResponse(Call<Provider> call, Response<Provider> response) {
+
+                if(response.isSuccessful()) {
+                    provider = response.body();
+
+                    //update views with data
+                    Picasso.with(getApplicationContext())
+                            .load(provider.getPosterPath())
+                            .resize(500, 500).centerInside()
+                            .into(image);
+                    name.setText(provider.getName());
+                    license.setText(provider.getLicenseNumber());
+                    jobType.setText(selectedService.getType());
+                    date.setText(selectedService.getDate());
+                    time.setText(selectedService.getTime());
+                    specialRequest.setText(selectedService.getSpecialRequest());
+                    price.setText(selectedService.getQuotation());
+                }
+            }
+            @Override
+            public void onFailure(Call<Provider> call, Throwable t) {
+                Log.e("TAG", t.toString());
+            }
+        });
 
         //bind views
         image = (ImageView) findViewById(io.garuda.skyworks.R.id.image);
@@ -67,19 +104,6 @@ public class CompleteServiceDetailRate extends AppCompatActivity {
         price = (TextView) findViewById(io.garuda.skyworks.R.id.price);
         payNRate = (Button) findViewById(R.id.pay_rate);
 
-
-        //update views with data
-        Picasso.with(this)
-                .load(provider.getPosterPath())
-                .resize(500, 500).centerInside()
-                .into(image);
-        name.setText(provider.getName());
-        license.setText(provider.getLicenseNumber());
-        jobType.setText(selectedService.getType());
-        date.setText(selectedService.getDate());
-        time.setText(selectedService.getTime());
-        specialRequest.setText(selectedService.getSpecialRequest());
-        price.setText(selectedService.getQuotation());
 
 
 

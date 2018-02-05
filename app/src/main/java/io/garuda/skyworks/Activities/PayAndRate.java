@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -15,10 +16,15 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import io.garuda.skyworks.Data.APIService;
+import io.garuda.skyworks.Data.ApiUtils;
 import io.garuda.skyworks.Models.Provider;
 import io.garuda.skyworks.Models.Service;
 import io.garuda.skyworks.Models.User;
 import io.garuda.skyworks.R;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class PayAndRate extends AppCompatActivity {
 
@@ -29,6 +35,7 @@ public class PayAndRate extends AppCompatActivity {
     Provider provider;
     Service selectedService;
     User user;
+    APIService mAPIService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +50,25 @@ public class PayAndRate extends AppCompatActivity {
         //setup toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle("Rate" + selectedService.getProvider().getName());
+        getSupportActionBar().setTitle("Rate");
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        //setup API Client
+        mAPIService = ApiUtils.getAPIService();
+        mAPIService.getProvider(selectedService.getOperatorID()).enqueue(new Callback<Provider>() {
+            @Override
+            public void onResponse(Call<Provider> call, Response<Provider> response) {
+
+                if(response.isSuccessful()) {
+                    provider = response.body();
+                    getSupportActionBar().setTitle("Rate" + provider.getName());
+                }
+            }
+            @Override
+            public void onFailure(Call<Provider> call, Throwable t) {
+                Log.e("TAG", t.toString());
+            }
+        });
 
         //bind views
         submit = (Button) findViewById(R.id.submit);
@@ -56,26 +80,22 @@ public class PayAndRate extends AppCompatActivity {
             public void onClick(View v) {
 
                 int rating = ratingBar.getNumStars();
-                ArrayList<Service> services = user.getServices();
-                for (int i = 0; i < services.size(); i++) {
-                    if (services.get(i).getType().equals(selectedService.getType())
-                            && services.get(i).getStatus().equals(selectedService.getStatus())
-                            && services.get(i).getDate().equals(selectedService.getDate())
-                            && services.get(i).getTime().equals(selectedService.getTime())
-                            && services.get(i).getSpecialRequest().equals(selectedService.getSpecialRequest())
-                            && services.get(i).getProvider().getLicenseNumber().equals(selectedService.getProvider().getLicenseNumber())
-                            && services.get(i).getPaymentMethod().getCardNum().equals(selectedService.getPaymentMethod().getCardNum())
-                            && services.get(i).getQuotation().equals(selectedService.getQuotation())) {
-                        services.remove(i);
-                    }
-                }
-                user.setServices(services);
                 selectedService.setRating(rating);
-                user.addService(selectedService);
-                Intent i = new Intent(PayAndRate.this, (Class) extras.get("CALLER1"));
-                i.putExtras(extras);
-                i.putExtra("USER", user);
-                startActivity(i);
+                mAPIService.postJob(selectedService.getId(), selectedService).enqueue(new Callback<Service>() {
+                    @Override
+                    public void onResponse(Call<Service> call, Response<Service> response) {
+                        if(response.isSuccessful()) {
+                            Intent i = new Intent(PayAndRate.this, (Class) extras.get("CALLER1"));
+                            i.putExtras(extras);
+                            startActivity(i);
+                        }
+                        Log.e("TAG", "error");
+                    }
+                    @Override
+                    public void onFailure(Call<Service> call, Throwable t) {
+                        Log.e("TAG", t.toString());
+                    }
+                });
 
             }
         });

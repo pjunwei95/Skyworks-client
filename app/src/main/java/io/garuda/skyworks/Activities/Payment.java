@@ -1,7 +1,10 @@
 package io.garuda.skyworks.Activities;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +20,11 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import io.garuda.skyworks.Adapters.CreditCardListAdapter;
 import io.garuda.skyworks.Data.APIService;
@@ -41,6 +48,12 @@ public class Payment extends AppCompatActivity implements Serializable{
     Bundle extras;
     Button add;
     APIService mAPIService;
+    SharedPreferences sharedPref;
+    ArrayList<CreditCard> cards;
+    List<String> cardIds;
+    String serviceId;
+    ArrayList<LatLng> arrayPoints;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,18 +70,60 @@ public class Payment extends AppCompatActivity implements Serializable{
         extras = getIntent().getExtras();
         provider = (Provider) extras.getSerializable("PROVIDER");
         service = (Service) extras.getSerializable("SERVICE");
-        user = (User) extras.get("USER");
+        arrayPoints = (ArrayList<LatLng>) extras.getSerializable("LOC");
 
         //bind view
         cardList = (ListView) findViewById(io.garuda.skyworks.R.id.cardList);
         add = (Button) findViewById(io.garuda.skyworks.R.id.addMethod);
 
-        //setup API Client
-        mAPIService = ApiUtils.getAPIService();
+        sharedPref = getSharedPreferences("MYPREF", Context.MODE_PRIVATE);
+        final String userID = sharedPref.getString("USER", "");
 
-        //create and setup adapter for credit card list
-        adapter = new CreditCardListAdapter(this, user.getCards());
-        cardList.setAdapter(adapter);
+        //setup API Client
+        final Activity activity = this;
+        mAPIService = ApiUtils.getAPIService();
+        mAPIService.getUser(userID).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if(response.isSuccessful()) {
+                    user = response.body();
+
+                    cardIds = user.getCardIds();
+                    cards = new ArrayList<>();
+
+                    //create and setup adapter for credit card list
+                    for(int i = 0; i < cardIds.size(); i++) {
+                        mAPIService.getCard(cardIds.get(i)).enqueue(new Callback<CreditCard>() {
+                            @Override
+                            public void onResponse(Call<CreditCard> call, Response<CreditCard> response) {
+                                if(response.isSuccessful()) {
+                                    CreditCard card = response.body();
+                                    cards.add(card);
+
+                                    adapter = new CreditCardListAdapter(activity, cards);
+                                    cardList.setAdapter(adapter);
+                                }
+                            }
+                            @Override
+                            public void onFailure(Call<CreditCard> call, Throwable t) {
+                                Log.e("TAG", t.toString());
+                            }
+                        });
+                    }
+
+                }
+            }
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Log.e("TAG", t.toString());
+            }
+        });
+
+
+
+
+
+
 
         //listener when click credit card
         cardList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -83,17 +138,30 @@ public class Payment extends AppCompatActivity implements Serializable{
                 ad.setPositiveButton("Select", new DialogInterface.OnClickListener() {
                     //deletes this item from order
                     public void onClick(DialogInterface dialog, int which) {
-                        CreditCard card = user.getCards().get(position);
+                        CreditCard card = cards.get(position);
 
-                        //service.setPaymentMethod(card);
-                        user.addService(service);
+                        service.setCreditCardID(card.getId());
                         sendJob(service);
+
+                        user.addServiceIds(serviceId);
+                        mAPIService.postUser(userID, user).enqueue(new Callback<User>() {
+                            @Override
+                            public void onResponse(Call<User> call, Response<User> response) {
+                                if(response.isSuccessful()) {
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<User> call, Throwable t) {
+                                Log.e("TAG", t.toString());
+                            }
+                        });
+
 
                         Intent i = new Intent(Payment.this, Confirmation.class);
                         Bundle mBundle = new Bundle();
                         mBundle.putSerializable("PROVIDER", provider);
                         mBundle.putSerializable("SERVICE", service);
-                        mBundle.putSerializable("USER", user);
                         i.putExtras(mBundle);
                         startActivity(i);
                     }
@@ -125,11 +193,12 @@ public class Payment extends AppCompatActivity implements Serializable{
     }
 
     public void sendJob(Service service) {
-        mAPIService.saveJob(service).enqueue(new Callback<Service>() {
+        mAPIService.putJob(service).enqueue(new Callback<Service>() {
             @Override
             public void onResponse(Call<Service> call, Response<Service> response) {
                 if(response.isSuccessful()) {
                     Log.i("TAG", "job submitted to API.");
+                    serviceId = response.body().getId();
                 }
             }
             @Override

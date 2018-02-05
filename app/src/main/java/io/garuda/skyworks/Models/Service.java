@@ -14,7 +14,7 @@ import java.util.ArrayList;
 public class Service implements Serializable {
     @SerializedName("_id")
     @Expose
-    private String userId;
+    private String id;
     @SerializedName("title")
     @Expose
     private String specialRequest;
@@ -55,9 +55,9 @@ public class Service implements Serializable {
     @Expose
     private ArrayList<LatLng> location;
 
-    //new constructor
-    public Service(String userId, String specialRequest, String status, String date, String customerName, String email, String contact, String type, String operatorID, int i, String time, String creditCardID, String quotation, int rating, ArrayList<LatLng> location) {
-        this.userId = userId;
+
+    public Service(String id, String specialRequest, String status, String date, String customerName, String email, String contact, String type, String operatorID, String time, String creditCardID, String quotation, int rating, ArrayList<LatLng> location) {
+        this.id = id;
         this.specialRequest = specialRequest;
         this.status = status;
         this.date = date;
@@ -73,102 +73,12 @@ public class Service implements Serializable {
         this.location = location;
     }
 
-    public String getCreditCardID() {
-        return creditCardID;
+    public String getId() {
+        return id;
     }
 
-    public void setCreditCardID(String creditCardID) {
-        this.creditCardID = creditCardID;
-    }
-
-    private CreditCard paymentMethod;
-    private Provider provider;
-
-    public Service(String status, String type, String customerName, String contact, String email, String date, String time, String specialRequest, Provider provider, CreditCard paymentMethod, String quotation, int rating) {
-        this.status = status;
-        this.type = type;
-        this.customerName = customerName;
-        this.contact = contact;
-        this.email = email;
-        this.date = date;
-        this.time = time;
-        this.specialRequest = specialRequest;
-        this.provider = provider;
-        this.paymentMethod = paymentMethod;
-        this.quotation = quotation;
-        this.rating = rating;
-    }
-
-    public int getRating() {
-        return rating;
-    }
-
-    public void setRating(int rating) {
-        this.rating = rating;
-    }
-
-    public String getQuotation() {
-        return quotation;
-    }
-
-    public void setQuotation(String quotation) {
-        this.quotation = quotation;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getCustomerName() {
-        return customerName;
-    }
-
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-
-    public String getContact() {
-        return contact;
-    }
-
-    public void setContact(String contact) {
-        this.contact = contact;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    public String getTime() {
-        return time;
-    }
-
-    public void setTime(String time) {
-        this.time = time;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getSpecialRequest() {
@@ -179,20 +89,100 @@ public class Service implements Serializable {
         this.specialRequest = specialRequest;
     }
 
-    public Provider getProvider() {
-        return provider;
+    public String getStatus() {
+        return status;
     }
 
-    public void setProvider(Provider provider) {
-        this.provider = provider;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public CreditCard getPaymentMethod() {
-        return paymentMethod;
+    public String getDate() {
+        return date;
     }
 
-    public void setPaymentMethod(CreditCard paymentMethod) {
-        this.paymentMethod = paymentMethod;
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getOperatorID() {
+        return operatorID;
+    }
+
+    public void setOperatorID(String operatorID) {
+        this.operatorID = operatorID;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getCreditCardID() {
+        return creditCardID;
+    }
+
+    public void setCreditCardID(String creditCardID) {
+        this.creditCardID = creditCardID;
+    }
+
+    public String getQuotation() {
+        return quotation;
+    }
+
+    public void setQuotation(String quotation) {
+        this.quotation = quotation;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
+    }
+
+    public ArrayList<LatLng> getLocation() {
+        return location;
+    }
+
+    public void setLocation(ArrayList<LatLng> location) {
+        this.location = location;
     }
 
 }

@@ -1,7 +1,11 @@
 package io.garuda.skyworks.Models;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by joshl on 2/1/2018.
@@ -9,35 +13,32 @@ import java.util.ArrayList;
 
 public class User implements Serializable{
 
-    String name;
-    String contactNumber;
-    String email;
-    ArrayList<CreditCard> cards;
-    ArrayList<Service> services;
+    @SerializedName("_id")
+    @Expose
+    private String id;
+    @SerializedName("name")
+    @Expose
+    private String name;
+    @SerializedName("contact_number")
+    @Expose
+    private String contactNumber;
+    @SerializedName("email")
+    @Expose
+    private String email;
+    @SerializedName("card_ids")
+    @Expose
+    private List<String> cardIds = null;
+    @SerializedName("service_ids")
+    @Expose
+    private List<String> serviceIds = null;
 
 
-    public User(String name, String contactNumber, String email, ArrayList<CreditCard> cards, ArrayList<Service> services) {
-        this.name = name;
-        this.contactNumber = contactNumber;
-        this.email = email;
-        this.cards = cards;
-        this.services = services;
+    public String getId() {
+        return id;
     }
 
-    public ArrayList<Service> getServices() {
-        return services;
-    }
-
-    public void setServices(ArrayList<Service> services) {
-        this.services = services;
-    }
-
-    public void addService(Service s) {
-        this.services.add(s);
-    }
-
-    public void removeService(Service s) {
-        this.services.remove(s);
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {
@@ -64,20 +65,36 @@ public class User implements Serializable{
         this.email = email;
     }
 
-    public ArrayList<CreditCard> getCards() {
-        return cards;
+    public List<String> getCardIds() {
+        return cardIds;
     }
 
-    public void setCards(ArrayList<CreditCard> cards) {
-        this.cards = cards;
+    public void setCardIds(List<String> cardIds) {
+        this.cardIds = cardIds;
     }
 
-    public void removeCard(CreditCard c) {
-        this.cards.remove(c);
+    public List<String> getServiceIds() {
+        return serviceIds;
     }
 
-    public void addCard(CreditCard c) {
-        this.cards.add(c);
+    public void setServiceIds(List<String> serviceIds) {
+        this.serviceIds = serviceIds;
+    }
+
+    public void addServiceIds(String serviceId) {
+        this.serviceIds.add(serviceId);
+    }
+
+    public void ServiceIds(String serviceId) {
+        this.serviceIds.add(serviceId);
+    }
+
+    public void removeCardId(String c) {
+        this.cardIds.remove(c);
+    }
+
+    public void addCardIds(String c) {
+        this.cardIds.add(c);
     }
 
 

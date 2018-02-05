@@ -62,7 +62,7 @@ public class CreditCardListAdapter extends ArrayAdapter<CreditCard> {
         }
 
         cardNum = cards.get(position).getCardNum();
-        cardType = cards.get(position).getCardType();
+        cardType = Integer.parseInt(cards.get(position).getCardType());
 
         cardNumView = (TextView) convertView.findViewById(R.id.ccNum);
         imgView = (ImageView) convertView.findViewById(R.id.ccImage);

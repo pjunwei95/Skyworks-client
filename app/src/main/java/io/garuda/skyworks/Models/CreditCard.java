@@ -1,5 +1,8 @@
 package io.garuda.skyworks.Models;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 /**
@@ -8,26 +11,38 @@ import java.io.Serializable;
 
 public class CreditCard implements Serializable{
 
-    String cardNum;
-    int cardType;
-    String name;
-    String validity;
-    String CVV;
 
-    public CreditCard(String cardNum, int cardType, String name, String validity, String CVV) {
+    @SerializedName("_id")
+    @Expose
+    private String id;
+    @SerializedName("card_num")
+    @Expose
+    private String cardNum;
+    @SerializedName("card_type")
+    @Expose
+    private String cardType;
+    @SerializedName("owner_id")
+    @Expose
+    private String ownerId;
+    @SerializedName("validity")
+    @Expose
+    private String validity;
+    @SerializedName("CVV")
+    @Expose
+    private String cVV;
+    @SerializedName("name")
+    @Expose
+    private String name;
+
+
+    public CreditCard(String id, String cardNum, String ownerId, String validity, String cVV, String name, String cardType) {
+        this.id = id;
         this.cardNum = cardNum;
-        this.cardType = cardType;
-        this.name = name;
+        this.ownerId = ownerId;
         this.validity = validity;
-        this.CVV = CVV;
-    }
-
-    public String getCVV() {
-        return CVV;
-    }
-
-    public void setCVV(String CVV) {
-        this.CVV = CVV;
+        this.cVV = cVV;
+        this.name = name;
+        this.cardType = cardType;
     }
 
     public String getName() {
@@ -38,12 +53,12 @@ public class CreditCard implements Serializable{
         this.name = name;
     }
 
-    public String getValidity() {
-        return validity;
+    public String getId() {
+        return id;
     }
 
-    public void setValidity(String validity) {
-        this.validity = validity;
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getCardNum() {
@@ -54,12 +69,36 @@ public class CreditCard implements Serializable{
         this.cardNum = cardNum;
     }
 
-    public int getCardType() {
+    public String getCardType() {
         return cardType;
     }
 
-    public void setCardType(int cardType) {
+    public void setCardType(String cardType) {
         this.cardType = cardType;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public String getValidity() {
+        return validity;
+    }
+
+    public void setValidity(String validity) {
+        this.validity = validity;
+    }
+
+    public String getcVV() {
+        return cVV;
+    }
+
+    public void setcVV(String cVV) {
+        this.cVV = cVV;
     }
 
     public String getConcatString() {

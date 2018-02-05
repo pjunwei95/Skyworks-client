@@ -3,7 +3,9 @@ package io.garuda.skyworks.Activities;
 
 
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -17,6 +19,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import io.garuda.skyworks.Data.APIService;
+import io.garuda.skyworks.Data.ApiUtils;
 import io.garuda.skyworks.Fragments.CCNameFragment;
 import io.garuda.skyworks.Fragments.CCNumberFragment;
 import io.garuda.skyworks.Fragments.CCSecureCodeFragment;
@@ -31,6 +35,9 @@ import io.garuda.skyworks.Fragments.CardFrontFragment;
 import io.garuda.skyworks.Models.CreditCard;
 import io.garuda.skyworks.Models.User;
 import io.garuda.skyworks.R;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class AddPaymentMethod extends AppCompatActivity implements FragmentManager.OnBackStackChangedListener {
 
@@ -51,9 +58,13 @@ public class AddPaymentMethod extends AppCompatActivity implements FragmentManag
     boolean backTrack = false;
     private boolean mShowingBack = false;
     String cardNumber, cardCVV, cardValidity, cardName;
+    String cardId;
 
     Bundle extras;
     User user;
+    APIService mAPIService;
+    SharedPreferences sharedPref;
+    String userID;
 
 
     @Override
@@ -70,7 +81,27 @@ public class AddPaymentMethod extends AppCompatActivity implements FragmentManag
 
         //get extras
         extras = getIntent().getExtras();
-        user = (User) extras.get("USER");
+
+        sharedPref = getSharedPreferences("MYPREF", Context.MODE_PRIVATE);
+        userID = sharedPref.getString("USER", "");
+
+        //setup API Client
+        mAPIService = ApiUtils.getAPIService();
+        mAPIService.getUser(userID).enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+
+                if(response.isSuccessful()) {
+                    user = response.body();
+                }
+
+            }
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Log.e("TAG", t.toString());
+            }
+        });
+
 
         ButterKnife.bind(this);
 
@@ -142,6 +173,8 @@ public class AddPaymentMethod extends AppCompatActivity implements FragmentManag
 
     }
 
+
+
     public void checkEntries() {
         cardName = nameFragment.getName();
         cardNumber = numberFragment.getCardNumber();
@@ -160,11 +193,40 @@ public class AddPaymentMethod extends AppCompatActivity implements FragmentManag
 
             Toast.makeText(AddPaymentMethod.this, "Your card is added", Toast.LENGTH_SHORT).show();
 
-            user.addCard(new CreditCard(cardNumber, CreditCardUtils.getCardType(cardNumber), cardName, cardValidity, cardCVV));
+
+            CreditCard card = new CreditCard("", cardNumber, user.getId(), cardValidity, cardCVV, cardName, String.valueOf(getCardType(cardNumber)));
+
+            mAPIService.putCard(card).enqueue(new Callback<CreditCard>() {
+                @Override
+                public void onResponse(Call<CreditCard> call, Response<CreditCard> response) {
+                    if(response.isSuccessful()) {
+                        cardId = response.body().getId();
+                        CreditCard card = response.body();
+                        user.addCardIds(cardId);
+                        mAPIService.postUser(userID, user).enqueue(new Callback<User>() {
+                            @Override
+                            public void onResponse(Call<User> call, Response<User> response) {
+                                if(response.isSuccessful()) {
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<User> call, Throwable t) {
+                                Log.e("TAG", t.toString());
+                            }
+                        });
+                    }
+
+                }
+                @Override
+                public void onFailure(Call<CreditCard> call, Throwable t) {
+                    Log.e("TAG", t.toString());
+                }
+            });
+
 
             Intent i = new Intent(AddPaymentMethod.this, (Class) extras.get("CALLER1"));
             Bundle mBundle = new Bundle();
-            mBundle.putSerializable("USER", user);
             i.putExtras(extras);
             i.putExtras(mBundle);
             startActivity(i);
@@ -240,6 +302,30 @@ public class AddPaymentMethod extends AppCompatActivity implements FragmentManag
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+
+
+    public int getCardType(String cardNumber) {
+        final int VISA = 1;
+        final int MASTERCARD = 2;
+        final int DISCOVER = 3;
+        final int AMEX = 4;
+
+        final String VISA_PREFIX = "4";
+        final String MASTERCARD_PREFIX = "51,52,53,54,55,";
+        final String DISCOVER_PREFIX = "6011";
+        final String AMEX_PREFIX = "34,37,";
+
+        if (cardNumber.substring(0, 1).equals(VISA_PREFIX))
+            return VISA;
+        else if (MASTERCARD_PREFIX.contains(cardNumber.substring(0, 2) + ","))
+            return MASTERCARD;
+        else if (AMEX_PREFIX.contains(cardNumber.substring(0, 2) + ","))
+            return AMEX;
+        else if (cardNumber.substring(0, 4).equals(DISCOVER_PREFIX))
+            return DISCOVER;
+        return -1;
     }
 }
 

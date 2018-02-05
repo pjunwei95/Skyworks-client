@@ -37,14 +37,12 @@ public class ProvidersRecyclerViewAdapter extends RecyclerView.Adapter<Providers
     List<Provider> providers;
     Context context;
     Service service;
-    User user;
     ArrayList<LatLng> arrayPoints;
 
-    public ProvidersRecyclerViewAdapter(Context context, List<Provider> providers, Service service, User user, ArrayList<LatLng> arrayPoints) {
+    public ProvidersRecyclerViewAdapter(Context context, List<Provider> providers, Service service, ArrayList<LatLng> arrayPoints) {
         this.providers = providers;
         this.context = context;
         this.service = service;
-        this.user = user;
         this.arrayPoints = arrayPoints;
     }
 
@@ -102,7 +100,6 @@ public class ProvidersRecyclerViewAdapter extends RecyclerView.Adapter<Providers
             Intent intent = new Intent(getContext(), ProviderDetail.class);
             intent.putExtra("SERVICE", service);
             intent.putExtra("PROVIDER", provider);
-            intent.putExtra("USER", user);
             intent.putExtra("LOC", arrayPoints);
             getContext().startActivity(intent);
 

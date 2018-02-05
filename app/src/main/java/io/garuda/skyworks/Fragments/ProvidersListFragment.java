@@ -40,7 +40,6 @@ public class ProvidersListFragment extends Fragment {
     RecyclerView rvProvider;
     List<Provider> providers;
     Service service;
-    User user;
     ArrayList<LatLng> arrayPoints;
     APIService mAPIService;
 
@@ -82,10 +81,9 @@ public class ProvidersListFragment extends Fragment {
 
                     //pass in data
                     service = (Service) getArguments().getSerializable("SERVICE");
-                    user = (User) getArguments().getSerializable("USER");
 
                     arrayPoints = (ArrayList<LatLng>) getArguments().getSerializable("LOC");
-                    ProvidersRecyclerViewAdapter adapter = new ProvidersRecyclerViewAdapter(getContext(), providers, service, user, arrayPoints);
+                    ProvidersRecyclerViewAdapter adapter = new ProvidersRecyclerViewAdapter(getContext(), providers, service, arrayPoints);
 
                     rvProvider.setAdapter(adapter);
                 }

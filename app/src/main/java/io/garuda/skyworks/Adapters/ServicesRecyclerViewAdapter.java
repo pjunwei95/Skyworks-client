@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -24,9 +26,15 @@ import io.garuda.skyworks.Activities.CompleteServiceDetailRate;
 import io.garuda.skyworks.Activities.MyServices;
 import io.garuda.skyworks.Activities.OngoingServiceDetail;
 import io.garuda.skyworks.Activities.RequestServiceDetail;
+import io.garuda.skyworks.Data.APIService;
+import io.garuda.skyworks.Data.ApiUtils;
+import io.garuda.skyworks.Models.Provider;
 import io.garuda.skyworks.Models.Service;
 import io.garuda.skyworks.Models.User;
 import io.garuda.skyworks.R;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by joshl on 6/1/2018.
@@ -37,13 +45,14 @@ public class ServicesRecyclerViewAdapter extends RecyclerView.Adapter<ServicesRe
     Context context;
     Bundle extras;
     User user;
-    ArrayList<Service> services;
+    List<Service> services;
+    Provider provider;
+    APIService mAPIService;
 
-    public ServicesRecyclerViewAdapter(Context context, User user, Bundle extras) {
+    public ServicesRecyclerViewAdapter(Context context, List<Service> services, Bundle extras) {
         this.extras = extras;
         this.context = context;
-        this.user = user;
-        this.services = user.getServices();
+        this.services = services;
 
     }
 
@@ -59,18 +68,32 @@ public class ServicesRecyclerViewAdapter extends RecyclerView.Adapter<ServicesRe
     }
 
     @Override
-    public void onBindViewHolder(ServicesRecyclerViewAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(final ServicesRecyclerViewAdapter.ViewHolder holder, int position) {
 
 
-        Service service = services.get(position);
+        final Service service = services.get(position);
         holder.serviceName.setText(service.getType());
         holder.date_time.setText(service.getDate() + " " + service.getTime());
         holder.status.setText("Status: " + service.getStatus());
 
-        Picasso.with(getContext())
-                .load(service.getProvider().getPosterPath())//need to change to online URL!!
-                .resize(150, 150).centerInside()
-                .into(holder.ivProviderImage);
+        mAPIService = ApiUtils.getAPIService();
+        mAPIService.getProvider(service.getOperatorID()).enqueue(new Callback<Provider>() {
+            @Override
+            public void onResponse(Call<Provider> call, Response<Provider> response) {
+
+                if(response.isSuccessful()) {
+                    provider = response.body();
+                    Picasso.with(getContext())
+                            .load(provider.getPosterPath())//need to change to online URL!!
+                            .resize(150, 150).centerInside()
+                            .into(holder.ivProviderImage);
+                }
+            }
+            @Override
+            public void onFailure(Call<Provider> call, Throwable t) {
+                Log.e("TAG", t.toString());
+            }
+        });
 
     }
 

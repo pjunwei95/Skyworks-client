@@ -21,7 +21,6 @@ public class Confirmation extends AppCompatActivity implements Serializable{
     Button OK;
     Provider provider;
     Service service;
-    User user;
     Bundle extras;
 
     @Override
@@ -39,8 +38,6 @@ public class Confirmation extends AppCompatActivity implements Serializable{
         extras = getIntent().getExtras();
         provider = (Provider) extras.getSerializable("PROVIDER");
         service = (Service) extras.getSerializable("SERVICE");
-        user = (User) extras.get("USER");
-
         //bind views
         OK = (Button) findViewById(io.garuda.skyworks.R.id.OK);
 
@@ -50,7 +47,6 @@ public class Confirmation extends AppCompatActivity implements Serializable{
             public void onClick(View v) {
                 Intent i = new Intent(Confirmation.this, ChooseService.class);
                 Bundle mBundle = new Bundle();
-                mBundle.putSerializable("USER", user);
                 i.putExtras(mBundle);
                 startActivity(i);
             }

@@ -26,10 +26,15 @@ import io.garuda.skyworks.Activities.CompleteServiceDetailRate;
 import io.garuda.skyworks.Activities.Notifications;
 import io.garuda.skyworks.Activities.OngoingServiceDetail;
 import io.garuda.skyworks.Activities.ProviderDetail;
+import io.garuda.skyworks.Data.APIService;
+import io.garuda.skyworks.Data.ApiUtils;
 import io.garuda.skyworks.Models.Provider;
 import io.garuda.skyworks.Models.Service;
 import io.garuda.skyworks.Models.User;
 import io.garuda.skyworks.R;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 /**
  * Created by joshl on 4/1/2018.
@@ -40,14 +45,14 @@ public class NotificationsRecyclerViewAdapter extends RecyclerView.Adapter<Notif
 
     Context context;
     Bundle extras;
-    User user;
-    ArrayList<Service> services;
+    List<Service> services;
+    Provider provider;
+    APIService mAPIService;
 
-    public NotificationsRecyclerViewAdapter(Context context, User user, Bundle extras) {
+    public NotificationsRecyclerViewAdapter(Context context, List<Service> services, Bundle extras) {
         this.extras = extras;
         this.context = context;
-        this.user = user;
-        this.services = user.getServices();
+        this.services = services;
 
     }
 
@@ -63,7 +68,7 @@ public class NotificationsRecyclerViewAdapter extends RecyclerView.Adapter<Notif
     }
 
     @Override
-    public void onBindViewHolder(NotificationsRecyclerViewAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(final NotificationsRecyclerViewAdapter.ViewHolder holder, int position) {
 
 
         Service service = services.get(position);
@@ -74,10 +79,26 @@ public class NotificationsRecyclerViewAdapter extends RecyclerView.Adapter<Notif
             holder.date_time.setText(service.getDate() + " " + service.getTime());
             holder.status.setText("Status: " + service.getStatus());
 
-            Picasso.with(getContext())
-                    .load(service.getProvider().getPosterPath())//need to change to online URL!!
-                    .resize(150, 150).centerInside()
-                    .into(holder.ivProviderImage);
+            mAPIService = ApiUtils.getAPIService();
+            mAPIService.getProvider(service.getOperatorID()).enqueue(new Callback<Provider>() {
+                @Override
+                public void onResponse(Call<Provider> call, Response<Provider> response) {
+
+                    if(response.isSuccessful()) {
+                        provider = response.body();
+                        Picasso.with(getContext())
+                                .load(provider.getPosterPath())//need to change to online URL!!
+                                .resize(150, 150).centerInside()
+                                .into(holder.ivProviderImage);
+                    }
+                }
+                @Override
+                public void onFailure(Call<Provider> call, Throwable t) {
+                    Log.e("TAG", t.toString());
+                }
+            });
+
+
         }
 
 
