@@ -81,7 +81,6 @@ public class PayAndRate extends AppCompatActivity {
 
                 int rating = ratingBar.getNumStars();
                 selectedService.setRating(rating);
-                selectedService.setStatus("Payment Successful");
                 mAPIService.postJob(selectedService.getId(), selectedService).enqueue(new Callback<Service>() {
                     @Override
                     public void onResponse(Call<Service> call, Response<Service> response) {

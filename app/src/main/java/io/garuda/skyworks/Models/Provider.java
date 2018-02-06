@@ -32,6 +32,9 @@ public class Provider implements Serializable{
     @SerializedName("about_us")
     @Expose
     private String overview;
+    @SerializedName("__v")
+    @Expose
+    private Integer v;
     @SerializedName("license_number")
     @Expose
     private String licenseNumber;
