@@ -159,7 +159,7 @@ public class FillUpFormOthers extends AppCompatActivity {
                 String sTime = time.getText().toString().trim();
                 String sJobDes = jobDescription.getText().toString().trim();
 
-                Service mService = new Service("", sJobDes, "request", sDate, sName, sEmail, sNumber,
+                Service mService = new Service("", sJobDes, "New Job", sDate, sName, sEmail, sNumber,
                         service.getType(), "operator1", sTime, "card1", "", -1, null);
 
                 if (isNewUser == null) {

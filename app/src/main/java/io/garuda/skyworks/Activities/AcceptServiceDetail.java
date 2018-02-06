@@ -142,7 +142,7 @@ public class AcceptServiceDetail extends AppCompatActivity {
                 ad.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
                     //deletes this item from order
                     public void onClick(DialogInterface dialog, int which) {
-                        selectedService.setStatus("Ongoing");
+                        selectedService.setStatus("Awaiting for Permit Details");
                         mAPIService.postJob(selectedService.getId(), selectedService).enqueue(new Callback<Service>() {
                             @Override
                             public void onResponse(Call<Service> call, Response<Service> response) {

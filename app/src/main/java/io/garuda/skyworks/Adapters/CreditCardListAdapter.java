@@ -67,7 +67,7 @@ public class CreditCardListAdapter extends ArrayAdapter<CreditCard> {
         cardNumView = (TextView) convertView.findViewById(R.id.ccNum);
         imgView = (ImageView) convertView.findViewById(R.id.ccImage);
 
-        cardNumView.setText(cardNum.substring(12));
+        cardNumView.setText(cardNum.substring(15));
         setCardType(cardType);
 
 

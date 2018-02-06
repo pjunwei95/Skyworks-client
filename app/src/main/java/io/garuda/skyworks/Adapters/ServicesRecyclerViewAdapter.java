@@ -125,33 +125,35 @@ public class ServicesRecyclerViewAdapter extends RecyclerView.Adapter<ServicesRe
 
             Service service = services.get(getAdapterPosition());
 
-            if (service.getStatus().equals("Accepted")) {
+            if (service.getStatus().equals("Awaiting Confirmation from Customer")) {
                 Intent intent = new Intent(getContext(), AcceptServiceDetail.class);
                 intent.putExtras(extras);
                 intent.putExtra("SELECTEDSERVICE", service);
                 intent.putExtra("CALLER1", MyServices.class);
                 getContext().startActivity(intent);
-            } else if (service.getStatus().equals("Completed")) {
-                if (service.getRating() != -1) {
-                    Intent intent = new Intent(getContext(), CompleteServiceDetail.class);
-                    intent.putExtras(extras);
-                    intent.putExtra("SELECTEDSERVICE", service);
-                    intent.putExtra("CALLER1", MyServices.class);
-                    getContext().startActivity(intent);
-                } else {
-                    Intent intent = new Intent(getContext(), CompleteServiceDetailRate.class);
-                    intent.putExtras(extras);
-                    intent.putExtra("SELECTEDSERVICE", service);
-                    intent.putExtra("CALLER1", MyServices.class);
-                    getContext().startActivity(intent);
-                }
-            } else if (service.getStatus().equals("Ongoing")) {
+            } else if (service.getStatus().equals("Payment Successful")) {
+                Intent intent = new Intent(getContext(), CompleteServiceDetail.class);
+                intent.putExtras(extras);
+                intent.putExtra("SELECTEDSERVICE", service);
+                intent.putExtra("CALLER1", MyServices.class);
+                getContext().startActivity(intent);
+
+            } else if (service.getStatus().equals("Job Done")){
+                Intent intent = new Intent(getContext(), CompleteServiceDetailRate.class);
+                intent.putExtras(extras);
+                intent.putExtra("SELECTEDSERVICE", service);
+                intent.putExtra("CALLER1", MyServices.class);
+                getContext().startActivity(intent);
+
+            } else if (service.getStatus().equals("Awaiting for Permit Details") ||
+                    service.getStatus().equals("Checking for Valid Permit Details") ||
+                    service.getStatus().equals("Ready to Fly")) {
                 Intent intent = new Intent(getContext(), OngoingServiceDetail.class);
                 intent.putExtras(extras);
                 intent.putExtra("SELECTEDSERVICE", service);
                 intent.putExtra("CALLER1", MyServices.class);
                 getContext().startActivity(intent);
-            } else if (service.getStatus().equals("Request")) {
+            } else if (service.getStatus().equals("New Job")) {
                 Intent intent = new Intent(getContext(), RequestServiceDetail.class);
                 intent.putExtras(extras);
                 intent.putExtra("SELECTEDSERVICE", service);
