@@ -174,7 +174,7 @@ public class FillUpForm extends AppCompatActivity implements Serializable {
                 String sTime = time.getText().toString().trim();
                 String sReq = req.getText().toString().trim();
 
-                Service mService = new Service("", sReq, "request", sDate, sName, sEmail, sNumber,
+                Service mService = new Service("", sReq, "New Job", sDate, sName, sEmail, sNumber,
                         service.getType(), "operator1", sTime, "card1", "", -1, null);
 
 

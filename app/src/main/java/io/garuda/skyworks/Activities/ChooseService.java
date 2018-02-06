@@ -82,7 +82,7 @@ public class ChooseService extends AppCompatActivity implements Serializable {
             @Override
             public void onClick(View v) {
                 //to be replaced by backend
-                Service service = new Service("", "", "Request", null, null, null, null, "Inspection", null, null, null, null, -1 , null);
+                Service service = new Service("", "", "New Job", null, null, null, null, "Inspection", null, null, null, null, -1 , null);
 
                 Intent i = new Intent(ChooseService.this, ChooseLocation.class);
                 Bundle mBundle = new Bundle();
@@ -97,7 +97,7 @@ public class ChooseService extends AppCompatActivity implements Serializable {
             @Override
             public void onClick(View v) {
                 //to be replaced by backend
-                Service service = new Service("", "", "Request", null, null, null, null, "Mapping", null, null, null, null, -1 , null);
+                Service service = new Service("", "", "New Job", null, null, null, null, "Mapping", null, null, null, null, -1 , null);
                 Intent i = new Intent(ChooseService.this, ChooseLocation.class);
                 Bundle mBundle = new Bundle();
                 mBundle.putSerializable("SERVICE", service);
@@ -111,7 +111,7 @@ public class ChooseService extends AppCompatActivity implements Serializable {
             @Override
             public void onClick(View v) {
                 //to be replaced by backend
-                Service service = new Service("", "", "Request", null, null, null, null, "Media Production", null, null, null, null, -1 , null);
+                Service service = new Service("", "", "New Job", null, null, null, null, "Media Production", null, null, null, null, -1 , null);
                 Intent i = new Intent(ChooseService.this, ChooseLocation.class);
                 Bundle mBundle = new Bundle();
                 mBundle.putSerializable("SERVICE", service);
