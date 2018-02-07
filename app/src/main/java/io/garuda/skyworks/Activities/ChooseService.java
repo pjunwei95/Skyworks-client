@@ -54,26 +54,10 @@ public class ChooseService extends AppCompatActivity implements Serializable {
         others_button = (ImageButton) findViewById(io.garuda.skyworks.R.id.others);
 
         //get extras
-        extras = getIntent().getExtras();
-
-        sharedPref = getPreferences(Context.MODE_PRIVATE);
-        String userID = sharedPref.getString("USER", "");
+        extras = new Bundle();
 
 
-        //setup API Client
-        mAPIService = ApiUtils.getAPIService();
-        mAPIService.getUser(userID).enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                if(response.isSuccessful()) {
-                    user = response.body();
-                }
-            }
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                Log.e("TAG", t.toString());
-            }
-        });
+        initialise();
 
 
 
@@ -129,7 +113,6 @@ public class ChooseService extends AppCompatActivity implements Serializable {
                 Bundle mBundle = new Bundle();
                 i.putExtras(mBundle);
                 startActivity(i);
-
 
             }
         });
@@ -189,9 +172,44 @@ public class ChooseService extends AppCompatActivity implements Serializable {
                 startActivity(i);
                 return true;
 
+            case R.id.myIP:
+                i = new Intent(ChooseService.this, IPSetup.class);
+                extras.putSerializable("CALLER", ChooseService.class);
+                i.putExtras(extras);
+                startActivity(i);
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    //method to initialise data
+    public void initialise() {
+        //setup API Client
+        mAPIService = ApiUtils.getAPIService(this);
+        mAPIService.getUser("5a75f231734d1d3bd58c8521").enqueue(new Callback<User>() {
+            @Override
+            public void onResponse(Call<User> call, Response<User> response) {
+                if(response.isSuccessful()) {
+                    user = response.body();
+
+                    //add user id to shared preference
+                    sharedPref = getSharedPreferences("MYPREF", Context.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = sharedPref.edit();
+                    editor.putString("USER", user.getId());
+                    editor.commit();
+
+                }
+            }
+            @Override
+            public void onFailure(Call<User> call, Throwable t) {
+                Log.e("TAG", t.toString());
+            }
+        });
+
+
+
     }
 
 }

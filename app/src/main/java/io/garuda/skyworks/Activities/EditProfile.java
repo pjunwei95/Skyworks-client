@@ -55,7 +55,7 @@ public class EditProfile extends AppCompatActivity {
         userID = sharedPref.getString("USER", "");
 
         //setup API Client
-        mAPIService = ApiUtils.getAPIService();
+        mAPIService = ApiUtils.getAPIService(this);
         mAPIService.getUser(userID).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {

@@ -31,6 +31,7 @@ import io.garuda.skyworks.Data.APIService;
 import io.garuda.skyworks.Data.ApiUtils;
 import io.garuda.skyworks.Models.CreditCard;
 import io.garuda.skyworks.Models.Provider;
+import io.garuda.skyworks.Models.SerializableLatLng;
 import io.garuda.skyworks.Models.Service;
 import io.garuda.skyworks.Models.User;
 import io.garuda.skyworks.R;
@@ -52,7 +53,7 @@ public class Payment extends AppCompatActivity implements Serializable{
     ArrayList<CreditCard> cards;
     List<String> cardIds;
     String serviceId;
-    ArrayList<LatLng> arrayPoints;
+    ArrayList<SerializableLatLng> locationPoints;
 
 
     @Override
@@ -70,7 +71,7 @@ public class Payment extends AppCompatActivity implements Serializable{
         extras = getIntent().getExtras();
         provider = (Provider) extras.getSerializable("PROVIDER");
         service = (Service) extras.getSerializable("SERVICE");
-        arrayPoints = (ArrayList<LatLng>) extras.getSerializable("LOC");
+        locationPoints = (ArrayList<SerializableLatLng>) extras.getSerializable("LOC");
 
         //bind view
         cardList = (ListView) findViewById(io.garuda.skyworks.R.id.cardList);
@@ -81,7 +82,7 @@ public class Payment extends AppCompatActivity implements Serializable{
 
         //setup API Client
         final Activity activity = this;
-        mAPIService = ApiUtils.getAPIService();
+        mAPIService = ApiUtils.getAPIService(this);
         mAPIService.getUser(userID).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
@@ -141,6 +142,8 @@ public class Payment extends AppCompatActivity implements Serializable{
                         CreditCard card = cards.get(position);
 
                         service.setCreditCardID(card.getId());
+                        service.setLocation(locationPoints);
+                        Log.d("TAG", locationPoints.toString());
                         sendJob(service);
 
                         user.addServiceIds(serviceId);
@@ -193,12 +196,12 @@ public class Payment extends AppCompatActivity implements Serializable{
     }
 
     public void sendJob(Service service) {
+        Log.d("TAG", service.getLocation().toString());
         mAPIService.putJob(service).enqueue(new Callback<Service>() {
             @Override
             public void onResponse(Call<Service> call, Response<Service> response) {
                 if(response.isSuccessful()) {
                     Log.i("TAG", "job submitted to API.");
-                    serviceId = response.body().getId();
                 }
             }
             @Override

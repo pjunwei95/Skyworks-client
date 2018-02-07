@@ -1,5 +1,8 @@
 package io.garuda.skyworks.Models;
 
+import android.graphics.Point;
+import android.os.Parcelable;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -53,10 +56,10 @@ public class Service implements Serializable {
     private int rating;
     @SerializedName("location")
     @Expose
-    private ArrayList<LatLng> location;
+    private ArrayList<SerializableLatLng> location;
 
 
-    public Service(String id, String specialRequest, String status, String date, String customerName, String email, String contact, String type, String operatorID, String time, String creditCardID, String quotation, int rating, ArrayList<LatLng> location) {
+    public Service(String id, String specialRequest, String status, String date, String customerName, String email, String contact, String type, String operatorID, String time, String creditCardID, String quotation, int rating, ArrayList<SerializableLatLng> location) {
         this.id = id;
         this.specialRequest = specialRequest;
         this.status = status;
@@ -177,11 +180,11 @@ public class Service implements Serializable {
         this.rating = rating;
     }
 
-    public ArrayList<LatLng> getLocation() {
+    public ArrayList<SerializableLatLng> getLocation() {
         return location;
     }
 
-    public void setLocation(ArrayList<LatLng> location) {
+    public void setLocation(ArrayList<SerializableLatLng> location) {
         this.location = location;
     }
 

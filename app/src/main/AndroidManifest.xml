@@ -36,8 +36,7 @@
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:theme="@style/AppTheme.Dark"
-            android:windowSoftInputMode="stateHidden"
-            >
+            android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -160,6 +159,12 @@
         <activity
             android:name=".Activities.PaymentNew"
             android:label="@string/title_activity_payment_new"
+            android:launchMode="singleTop"
+            android:theme="@style/AppTheme.Light" />
+        <activity
+            android:name=".Activities.IPSetup"
+            android:label="@string/title_activity_ipsetup"
+            android:launchMode="singleTop"
             android:theme="@style/AppTheme.Light"></activity>
     </application>
 

@@ -71,7 +71,7 @@ public class AcceptServiceDetail extends AppCompatActivity {
         extras = getIntent().getExtras();
         selectedService = (Service) extras.getSerializable("SELECTEDSERVICE");
 
-        mAPIService = ApiUtils.getAPIService();
+        mAPIService = ApiUtils.getAPIService(this);
         mAPIService.getProvider(selectedService.getOperatorID()).enqueue(new Callback<Provider>() {
             @Override
             public void onResponse(Call<Provider> call, Response<Provider> response) {

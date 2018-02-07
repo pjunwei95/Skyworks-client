@@ -78,7 +78,7 @@ public class FillUpFormOthers extends AppCompatActivity {
         String userID = sharedPref.getString("USER", "");
 
         //setup API Client
-        mAPIService = ApiUtils.getAPIService();
+        mAPIService = ApiUtils.getAPIService(this);
         mAPIService.getUser(userID).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
@@ -159,8 +159,10 @@ public class FillUpFormOthers extends AppCompatActivity {
                 String sTime = time.getText().toString().trim();
                 String sJobDes = jobDescription.getText().toString().trim();
 
+                String providerID = sharedPref.getString("PROVIDER", "");
+
                 Service mService = new Service("", sJobDes, "New Job", sDate, sName, sEmail, sNumber,
-                        service.getType(), "operator1", sTime, "card1", "", -1, null);
+                        service.getType(), providerID, sTime, "card1", "", -1, null);
 
                 if (isNewUser == null) {
                     Intent i = new Intent(FillUpFormOthers.this, PaymentNew.class);

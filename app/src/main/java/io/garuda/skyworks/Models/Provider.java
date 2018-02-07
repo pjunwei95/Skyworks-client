@@ -41,12 +41,21 @@ public class Provider implements Serializable{
 
 
 
-    public Provider(String name, String overview, String posterPath, String licenseNumber, List<String> gallery) {
+    public Provider(String name, String overview, String posterPath, String licenseNumber, List<String> gallery, String id) {
         this.name = name;
         this.overview = overview;
         this.posterPath = posterPath;
         this.licenseNumber = licenseNumber;
         this.gallery = gallery;
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getName() {

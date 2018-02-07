@@ -76,7 +76,7 @@ public class ServicesRecyclerViewAdapter extends RecyclerView.Adapter<ServicesRe
         holder.date_time.setText(service.getDate() + " " + service.getTime());
         holder.status.setText("Status: " + service.getStatus());
 
-        mAPIService = ApiUtils.getAPIService();
+        mAPIService = ApiUtils.getAPIService(getContext());
         mAPIService.getProvider(service.getOperatorID()).enqueue(new Callback<Provider>() {
             @Override
             public void onResponse(Call<Provider> call, Response<Provider> response) {

@@ -71,7 +71,7 @@ public class NotificationsListFragment extends Fragment {
         userID = sharedPref.getString("USER", "");
 
         //setup API Client
-        mAPIService = ApiUtils.getAPIService();
+        mAPIService = ApiUtils.getAPIService(getContext());
         mAPIService.getUser(userID).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {

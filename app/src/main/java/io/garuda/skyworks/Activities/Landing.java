@@ -45,26 +45,12 @@ public class Landing extends AppCompatActivity {
         login = (Button) findViewById(R.id.btn_login);
         signUp = (TextView) findViewById(R.id.link_signup);
 
-        //setup API Client
-        mAPIService = ApiUtils.getAPIService();
 
-        //initialise data (to be replaced by backend implementation)
-        initialise();
-/*
-        //add user id to shared preference
-        sharedPref = getPreferences(Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPref.edit();
-        editor.putString("USER", user.getId());
-        editor.commit();
-*/
         //listeners for buttons
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(Landing.this, ChooseService.class);
-                Bundle mBundle = new Bundle();
-                mBundle.putSerializable("USER", user);
-                i.putExtras(mBundle);
                 startActivity(i);
 
             }
@@ -82,32 +68,6 @@ public class Landing extends AppCompatActivity {
 
     }
 
-    //method to initialise data
-    public void initialise() {
-
-        mAPIService.getUser("5a75f231734d1d3bd58c8521").enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                if(response.isSuccessful()) {
-                    user = response.body();
-
-                    //add user id to shared preference
-                    sharedPref = getSharedPreferences("MYPREF", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.putString("USER", user.getId());
-                    editor.commit();
-
-                }
-            }
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                Log.e("TAG", t.toString());
-            }
-        });
-
-
-
-    }
 
 
 }

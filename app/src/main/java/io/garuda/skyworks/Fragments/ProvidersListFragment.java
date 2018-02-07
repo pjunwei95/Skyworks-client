@@ -1,5 +1,7 @@
 package io.garuda.skyworks.Fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +17,7 @@ import io.garuda.skyworks.Adapters.ProvidersRecyclerViewAdapter;
 import io.garuda.skyworks.Data.APIService;
 import io.garuda.skyworks.Data.ApiUtils;
 import io.garuda.skyworks.Models.Provider;
+import io.garuda.skyworks.Models.SerializableLatLng;
 import io.garuda.skyworks.Models.Service;
 import io.garuda.skyworks.Models.User;
 
@@ -40,8 +43,9 @@ public class ProvidersListFragment extends Fragment {
     RecyclerView rvProvider;
     List<Provider> providers;
     Service service;
-    ArrayList<LatLng> arrayPoints;
+    ArrayList<SerializableLatLng> locationPoints;
     APIService mAPIService;
+
 
 
     public ProvidersListFragment() {
@@ -71,7 +75,7 @@ public class ProvidersListFragment extends Fragment {
         rvProvider.setLayoutManager(llm);
 
         //setup API Client
-        mAPIService = ApiUtils.getAPIService();
+        mAPIService = ApiUtils.getAPIService(getContext());
         mAPIService.getOperator().enqueue(new Callback<List<Provider>>() {
             @Override
             public void onResponse(Call<List<Provider>> call, Response<List<Provider>> response) {
@@ -82,8 +86,9 @@ public class ProvidersListFragment extends Fragment {
                     //pass in data
                     service = (Service) getArguments().getSerializable("SERVICE");
 
-                    arrayPoints = (ArrayList<LatLng>) getArguments().getSerializable("LOC");
-                    ProvidersRecyclerViewAdapter adapter = new ProvidersRecyclerViewAdapter(getContext(), providers, service, arrayPoints);
+
+                    locationPoints = (ArrayList<SerializableLatLng>) getArguments().getSerializable("LOC");
+                    ProvidersRecyclerViewAdapter adapter = new ProvidersRecyclerViewAdapter(getContext(), providers, service, locationPoints, getActivity());
 
                     rvProvider.setAdapter(adapter);
                 }

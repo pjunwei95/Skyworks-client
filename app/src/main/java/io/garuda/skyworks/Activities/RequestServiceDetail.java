@@ -61,7 +61,7 @@ public class RequestServiceDetail extends AppCompatActivity {
         providerID = selectedService.getOperatorID();
 
         //setup API Client
-        mAPIService = ApiUtils.getAPIService();
+        mAPIService = ApiUtils.getAPIService(this);
         mAPIService.getProvider(providerID).enqueue(new Callback<Provider>() {
             @Override
             public void onResponse(Call<Provider> call, Response<Provider> response) {

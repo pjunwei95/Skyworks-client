@@ -1,7 +1,9 @@
 package io.garuda.skyworks.Adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 
 import io.garuda.skyworks.Activities.ProviderDetail;
 import io.garuda.skyworks.Models.Provider;
+import io.garuda.skyworks.Models.SerializableLatLng;
 import io.garuda.skyworks.Models.Service;
 import io.garuda.skyworks.Models.User;
 import io.garuda.skyworks.R;
@@ -37,13 +40,16 @@ public class ProvidersRecyclerViewAdapter extends RecyclerView.Adapter<Providers
     List<Provider> providers;
     Context context;
     Service service;
-    ArrayList<LatLng> arrayPoints;
+    ArrayList<SerializableLatLng> locationPoints;
+    SharedPreferences sharedPref;
+    Activity activity;
 
-    public ProvidersRecyclerViewAdapter(Context context, List<Provider> providers, Service service, ArrayList<LatLng> arrayPoints) {
+    public ProvidersRecyclerViewAdapter(Context context, List<Provider> providers, Service service, ArrayList<SerializableLatLng> locationPoints, Activity activity) {
         this.providers = providers;
         this.context = context;
         this.service = service;
-        this.arrayPoints = arrayPoints;
+        this.locationPoints = locationPoints;
+        this.activity = activity;
     }
 
     private Context getContext(){
@@ -97,10 +103,14 @@ public class ProvidersRecyclerViewAdapter extends RecyclerView.Adapter<Providers
         public void onClick(View v) {
 
             Provider provider = providers.get(getAdapterPosition());
+            sharedPref = activity.getSharedPreferences("MYPREF", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPref.edit();
+            editor.putString("PROVIDER", provider.getId());
+            editor.commit();
             Intent intent = new Intent(getContext(), ProviderDetail.class);
             intent.putExtra("SERVICE", service);
             intent.putExtra("PROVIDER", provider);
-            intent.putExtra("LOC", arrayPoints);
+            intent.putExtra("LOC", locationPoints);
             getContext().startActivity(intent);
 
 

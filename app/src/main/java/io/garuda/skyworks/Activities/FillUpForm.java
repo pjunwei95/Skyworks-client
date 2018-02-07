@@ -32,6 +32,7 @@ import java.util.UUID;
 import io.garuda.skyworks.Data.APIService;
 import io.garuda.skyworks.Data.ApiUtils;
 import io.garuda.skyworks.Models.Provider;
+import io.garuda.skyworks.Models.SerializableLatLng;
 import io.garuda.skyworks.Models.Service;
 import io.garuda.skyworks.Models.User;
 import io.garuda.skyworks.R;
@@ -53,7 +54,7 @@ public class FillUpForm extends AppCompatActivity implements Serializable {
     TextView type;
     Button submit;
     Bundle extras;
-    ArrayList<LatLng> arrayPoints;
+    ArrayList<SerializableLatLng> locationPoints;
     APIService mAPIService;
     SharedPreferences sharedPref;
     Boolean isNewUser;
@@ -84,14 +85,14 @@ public class FillUpForm extends AppCompatActivity implements Serializable {
         extras = getIntent().getExtras();
         provider = (Provider) extras.getSerializable("PROVIDER");
         service = (Service) extras.getSerializable("SERVICE");
-        arrayPoints = (ArrayList<LatLng>) extras.getSerializable("LOC");
+        locationPoints = (ArrayList<SerializableLatLng>) extras.getSerializable("LOC");
 
 
         sharedPref = getSharedPreferences("MYPREF", Context.MODE_PRIVATE);
         String userID = sharedPref.getString("USER", "");
 
         //setup API Client
-        mAPIService = ApiUtils.getAPIService();
+        mAPIService = ApiUtils.getAPIService(this);
         mAPIService.getUser(userID).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
@@ -174,8 +175,10 @@ public class FillUpForm extends AppCompatActivity implements Serializable {
                 String sTime = time.getText().toString().trim();
                 String sReq = req.getText().toString().trim();
 
+                String providerID = sharedPref.getString("PROVIDER", "");
+
                 Service mService = new Service("", sReq, "New Job", sDate, sName, sEmail, sNumber,
-                        service.getType(), "operator1", sTime, "card1", "", -1, null);
+                        service.getType(), providerID, sTime, "card1", "", -1, null);
 
 
                 if (isNewUser) {
@@ -183,7 +186,7 @@ public class FillUpForm extends AppCompatActivity implements Serializable {
                     Bundle mBundle = new Bundle();
                     mBundle.putSerializable("SERVICE", mService);
                     mBundle.putSerializable("PROVIDER", provider);
-                    mBundle.putSerializable("LOC", arrayPoints);
+                    mBundle.putSerializable("LOC", locationPoints);
                     mBundle.putSerializable("PAYMENTCALLER", FillUpForm.class);
                     i.putExtras(mBundle);
                     startActivity(i);
@@ -193,7 +196,7 @@ public class FillUpForm extends AppCompatActivity implements Serializable {
                     Bundle mBundle = new Bundle();
                     mBundle.putSerializable("SERVICE", mService);
                     mBundle.putSerializable("PROVIDER", provider);
-                    mBundle.putSerializable("LOC", arrayPoints);
+                    mBundle.putSerializable("LOC", locationPoints);
                     mBundle.putSerializable("PAYMENTCALLER", FillUpForm.class);
                     i.putExtras(mBundle);
                     startActivity(i);

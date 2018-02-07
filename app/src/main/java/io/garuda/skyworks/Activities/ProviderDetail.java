@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import io.garuda.skyworks.Adapters.GalleryListAdapter;
 import io.garuda.skyworks.Models.Provider;
+import io.garuda.skyworks.Models.SerializableLatLng;
 import io.garuda.skyworks.Models.Service;
 import io.garuda.skyworks.Models.User;
 import io.garuda.skyworks.R;
@@ -34,7 +35,7 @@ public class ProviderDetail extends AppCompatActivity implements Serializable{
     ImageView logo;
     Bundle extras;
     Button confirm_button;
-    ArrayList<LatLng> arrayPoints;
+    ArrayList<SerializableLatLng> locationPoints;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +46,7 @@ public class ProviderDetail extends AppCompatActivity implements Serializable{
         extras = getIntent().getExtras();
         provider = (Provider) extras.getSerializable("PROVIDER");
         service = (Service) extras.getSerializable("SERVICE");
-        arrayPoints = (ArrayList<LatLng>) extras.getSerializable("LOC");
+        locationPoints = (ArrayList<SerializableLatLng>) extras.getSerializable("LOC");
 
         //setup toolbar
         Toolbar toolbar = (Toolbar) findViewById(io.garuda.skyworks.R.id.toolbar);
@@ -85,7 +86,7 @@ public class ProviderDetail extends AppCompatActivity implements Serializable{
                 Bundle mBundle = new Bundle();
                 mBundle.putSerializable("PROVIDER", provider);
                 mBundle.putSerializable("SERVICE", service);
-                mBundle.putSerializable("LOC", arrayPoints);
+                mBundle.putSerializable("LOC", locationPoints);
                 i.putExtras(mBundle);
                 startActivity(i);
             }

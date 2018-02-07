@@ -65,7 +65,7 @@ public class MyWallet extends AppCompatActivity implements Serializable{
 
         //setup API Client
         final Activity activity = this;
-        mAPIService = ApiUtils.getAPIService();
+        mAPIService = ApiUtils.getAPIService(this);
         mAPIService.getUser(userID).enqueue(new Callback<User>() {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {

@@ -1,5 +1,8 @@
 package io.garuda.skyworks.Data;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 /**
  * Created by Joshua on 29/01/2018.
  */
@@ -8,9 +11,12 @@ public class ApiUtils {
 
     private ApiUtils() {}
 
-    public static final String BASE_URL = "http://192.168.0.101:3003";
+    public static final String BASE_URL = "http://192.168.1.149:3003";
 
-    public static APIService getAPIService() {
-        return RetrofitClient.getClient(BASE_URL).create(APIService.class);
+    public static APIService getAPIService(Context context) {
+        SharedPreferences sharedPref = context.getSharedPreferences("MYPREF", Context.MODE_PRIVATE);
+        String ip = sharedPref.getString("IP", "http://192.168.1.149:3003");
+        return RetrofitClient.getClient(ip).create(APIService.class);
     }
+
 }

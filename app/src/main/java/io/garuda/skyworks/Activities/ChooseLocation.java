@@ -38,6 +38,7 @@ import java.util.ArrayList;
 
 import io.garuda.skyworks.Data.APIService;
 import io.garuda.skyworks.Data.ApiUtils;
+import io.garuda.skyworks.Models.SerializableLatLng;
 import io.garuda.skyworks.Models.Service;
 import io.garuda.skyworks.Models.User;
 import io.garuda.skyworks.R;
@@ -53,9 +54,8 @@ public class ChooseLocation extends AppCompatActivity implements Serializable, G
     Button pilot_button;
     GoogleMap googleMap;
     ArrayList<LatLng> arrayPoints = new ArrayList<LatLng>();
-    PolylineOptions polylineOptions;
+    ArrayList<SerializableLatLng> locationPoints = new ArrayList<>();
     boolean checkClick = false;
-    LocationListener mListener;
 
 
     @Override
@@ -85,7 +85,7 @@ public class ChooseLocation extends AppCompatActivity implements Serializable, G
                 Bundle mBundle = new Bundle();
                 mBundle.putSerializable("SERVICE", service);
                 mBundle.putSerializable("USER", user);
-                mBundle.putSerializable("LOC", arrayPoints);
+                mBundle.putSerializable("LOC", locationPoints);
                 i.putExtras(mBundle);
                 startActivity(i);
 
@@ -123,6 +123,7 @@ public class ChooseLocation extends AppCompatActivity implements Serializable, G
         if (checkClick == false) {
             googleMap.addMarker(new MarkerOptions().position(point));
             arrayPoints.add(point);
+            locationPoints.add(new SerializableLatLng(point.latitude, point.longitude));
         }
     }
 
@@ -130,6 +131,7 @@ public class ChooseLocation extends AppCompatActivity implements Serializable, G
     public void onMapLongClick(LatLng point) {
         googleMap.clear();
         arrayPoints.clear();
+        locationPoints.clear();
         checkClick = false;
     }
 
