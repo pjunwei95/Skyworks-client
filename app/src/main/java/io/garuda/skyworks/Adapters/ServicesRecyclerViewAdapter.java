@@ -147,7 +147,8 @@ public class ServicesRecyclerViewAdapter extends RecyclerView.Adapter<ServicesRe
 
             } else if (service.getStatus().equals("Awaiting for Permit Details") ||
                     service.getStatus().equals("Checking for Valid Permit Details") ||
-                    service.getStatus().equals("Ready to Fly")) {
+                    service.getStatus().equals("Ready to Fly") ||
+                    service.getStatus().equals("Cancelled by Operator")) {
                 Intent intent = new Intent(getContext(), OngoingServiceDetail.class);
                 intent.putExtras(extras);
                 intent.putExtra("SELECTEDSERVICE", service);

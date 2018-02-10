@@ -55,8 +55,6 @@ public class ChooseService extends AppCompatActivity implements Serializable {
 
         //get extras
         extras = new Bundle();
-
-
         initialise();
 
 
@@ -187,26 +185,29 @@ public class ChooseService extends AppCompatActivity implements Serializable {
     //method to initialise data
     public void initialise() {
         //setup API Client
-        mAPIService = ApiUtils.getAPIService(this);
-        mAPIService.getUser("5a75f231734d1d3bd58c8521").enqueue(new Callback<User>() {
-            @Override
-            public void onResponse(Call<User> call, Response<User> response) {
-                if(response.isSuccessful()) {
-                    user = response.body();
+        sharedPref = getSharedPreferences("MYPREF", Context.MODE_PRIVATE);
+        String ip = sharedPref.getString("IP", "invalid");
+        if (!ip.equals("invalid")) {
+            mAPIService = ApiUtils.getAPIService(this);
+            mAPIService.getUser("5a75f231734d1d3bd58c8521").enqueue(new Callback<User>() {
+                @Override
+                public void onResponse(Call<User> call, Response<User> response) {
+                    if(response.isSuccessful()) {
+                        user = response.body();
+                        //add user id to shared preference
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putString("USER", user.getId());
+                        editor.commit();
 
-                    //add user id to shared preference
-                    sharedPref = getSharedPreferences("MYPREF", Context.MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPref.edit();
-                    editor.putString("USER", user.getId());
-                    editor.commit();
-
+                    }
                 }
-            }
-            @Override
-            public void onFailure(Call<User> call, Throwable t) {
-                Log.e("TAG", t.toString());
-            }
-        });
+                @Override
+                public void onFailure(Call<User> call, Throwable t) {
+                    Log.e("TAG", t.toString());
+                }
+            });
+        }
+
 
 
 

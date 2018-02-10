@@ -52,6 +52,8 @@ public class IPSetup extends AppCompatActivity {
                 editor.putString("IP", ip);
                 editor.commit();
                 Toast.makeText(IPSetup.this, "URL updated!", Toast.LENGTH_SHORT).show();
+                Intent i = new Intent(IPSetup.this, ChooseService.class);
+                startActivity(i);
 
             }
         });

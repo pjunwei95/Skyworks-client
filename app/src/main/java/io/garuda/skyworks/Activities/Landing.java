@@ -41,6 +41,11 @@ public class Landing extends AppCompatActivity {
 
         this.setTitle("Welcome to SkyWorks");
 
+        //reset IP
+        sharedPref = getSharedPreferences("MYPREF", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.remove("IP").commit();
+
         //Bind views
         login = (Button) findViewById(R.id.btn_login);
         signUp = (TextView) findViewById(R.id.link_signup);

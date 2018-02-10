@@ -52,7 +52,20 @@ public class NotificationsRecyclerViewAdapter extends RecyclerView.Adapter<Notif
     public NotificationsRecyclerViewAdapter(Context context, List<Service> services, Bundle extras) {
         this.extras = extras;
         this.context = context;
-        this.services = services;
+        this.services = new ArrayList<>();
+        for (int i = 0; i < services.size(); i++) {
+            Service service = services.get(i);
+            if (service.getStatus().equals("Awaiting Confirmation from Customer") ||
+                    service.getStatus().equals("Job Done") ||
+                    service.getStatus().equals("Awaiting for Permit Details") ||
+                    service.getStatus().equals("Checking for Valid Permit Details") ||
+                    service.getStatus().equals("Ready to Fly") ||
+                    service.getStatus().equals("Payment Successful") ||
+                    service.getStatus().equals("Cancelled by Operator")) {
+                this.services.add(service);
+            }
+        }
+
 
     }
 
@@ -73,12 +86,7 @@ public class NotificationsRecyclerViewAdapter extends RecyclerView.Adapter<Notif
 
         Service service = services.get(position);
 
-        if (service.getStatus().equals("Awaiting Confirmation from Customer") ||
-                service.getStatus().equals("Job Done") ||
-                service.getStatus().equals("Awaiting for Permit Details") ||
-                service.getStatus().equals("Checking for Valid Permit Details") ||
-                service.getStatus().equals("Ready to Fly") ||
-                service.getStatus().equals("Payment Successful")) {
+
             holder.serviceName.setText(service.getType());
             holder.date_time.setText(service.getDate() + " " + service.getTime());
             holder.status.setText("Status: " + service.getStatus());
@@ -103,7 +111,7 @@ public class NotificationsRecyclerViewAdapter extends RecyclerView.Adapter<Notif
             });
 
 
-        }
+
 
 
     }
@@ -157,7 +165,8 @@ public class NotificationsRecyclerViewAdapter extends RecyclerView.Adapter<Notif
 
             } else if (service.getStatus().equals("Awaiting for Permit Details") ||
                     service.getStatus().equals("Checking for Valid Permit Details") ||
-                    service.getStatus().equals("Ready to Fly")) {
+                    service.getStatus().equals("Ready to Fly") ||
+                    service.getStatus().equals("Cancelled by Operator")) {
                 Intent intent = new Intent(getContext(), OngoingServiceDetail.class);
                 intent.putExtras(extras);
                 intent.putExtra("SELECTEDSERVICE", service);

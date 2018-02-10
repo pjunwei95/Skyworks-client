@@ -54,6 +54,7 @@ public class Payment extends AppCompatActivity implements Serializable{
     List<String> cardIds;
     String serviceId;
     ArrayList<SerializableLatLng> locationPoints;
+    String userID;
 
 
     @Override
@@ -78,7 +79,7 @@ public class Payment extends AppCompatActivity implements Serializable{
         add = (Button) findViewById(io.garuda.skyworks.R.id.addMethod);
 
         sharedPref = getSharedPreferences("MYPREF", Context.MODE_PRIVATE);
-        final String userID = sharedPref.getString("USER", "");
+        userID = sharedPref.getString("USER", "");
 
         //setup API Client
         final Activity activity = this;
@@ -146,20 +147,6 @@ public class Payment extends AppCompatActivity implements Serializable{
                         Log.d("TAG", locationPoints.toString());
                         sendJob(service);
 
-                        user.addServiceIds(serviceId);
-                        mAPIService.postUser(userID, user).enqueue(new Callback<User>() {
-                            @Override
-                            public void onResponse(Call<User> call, Response<User> response) {
-                                if(response.isSuccessful()) {
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<User> call, Throwable t) {
-                                Log.e("TAG", t.toString());
-                            }
-                        });
-
 
                         Intent i = new Intent(Payment.this, Confirmation.class);
                         Bundle mBundle = new Bundle();
@@ -202,6 +189,21 @@ public class Payment extends AppCompatActivity implements Serializable{
             public void onResponse(Call<Service> call, Response<Service> response) {
                 if(response.isSuccessful()) {
                     Log.i("TAG", "job submitted to API.");
+                    serviceId = response.body().getId();
+                    user.addServiceIds(serviceId);
+                    mAPIService.postUser(userID, user).enqueue(new Callback<User>() {
+                        @Override
+                        public void onResponse(Call<User> call, Response<User> response) {
+                            if(response.isSuccessful()) {
+                                Log.d("TAG", response.body().getServiceIds().toString());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<User> call, Throwable t) {
+                            Log.e("TAG", t.toString());
+                        }
+                    });
                 }
             }
             @Override
